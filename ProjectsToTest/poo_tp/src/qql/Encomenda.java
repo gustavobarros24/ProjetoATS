@@ -62,6 +62,23 @@ public class Encomenda implements Serializable {
         this.dataPrevistaEntrega = null;
     }
 
+    public Encomenda(int codigo, Map<Integer, Integer> artigos, TamanhoEmbalagem embalagem, float precoFinal, EstadoEncomenda estado, LocalDateTime dataCriacao, LocalDateTime dataFinalizacao, LocalDateTime dataPrevistaEntrega) {
+        this.codigo = codigo;
+        this.artigos = new HashMap<>(artigos);
+        this.embalagem = embalagem;
+        this.precoFinal = precoFinal;
+        this.estado = estado;
+        this.dataCriacao = dataCriacao;
+        this.dataFinalizacao = dataFinalizacao;
+        this.dataPrevistaEntrega = dataPrevistaEntrega;
+
+        // Atualizar ultimoCodigo se necessário
+        if (codigo > ultimoCodigo) {
+            ultimoCodigo = codigo;
+        }
+    }
+
+
     public int getCodigo() {
         return codigo;
     }
@@ -91,7 +108,9 @@ public class Encomenda implements Serializable {
     }
 
     public void setEstado(EstadoEncomenda estado) {
-        this.estado = estado;
+        if (estado != null) {
+            this.estado = estado;
+        }
     }
 
     public void setDataFinalizacao() {
