@@ -12,7 +12,7 @@ public class TransportadoraTest {
 
     @BeforeEach
     void setUp() {
-        t = new Transportadora("TransXP", 0.2f, 10.0f, 20.0f, 30.0f, 1.6f);
+        t = new Transportadora("FedEx", 0.2f, 10.0f, 20.0f, 30.0f, 1.6f);
     }
 
     @Test
