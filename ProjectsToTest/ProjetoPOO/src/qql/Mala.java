@@ -123,6 +123,6 @@ public class Mala extends Artigo implements Serializable {
            anoColecao == other.anoColecao &&
            premium == other.premium &&
            Float.compare(valorizacao, other.valorizacao) == 0;
-}
+    }
 
 }
