@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Sapatilha.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ProjetoPOO</a> &gt; <a href="index.source.html" class="el_package">Vintage.qql</a> &gt; <span class="el_source">Sapatilha.java</span></div><h1>Sapatilha.java</h1><pre class="source lang-java linenums">package Vintage.qql;
+
+import java.io.Serializable;
+import java.time.LocalDate;
+
+public class Sapatilha extends Artigo implements Serializable {
+    private int tamanho;
+    private boolean atacadores;
+    private String cor;
+    private int anoLancamento;
+    private boolean premium;
+
+    public Sapatilha() {
+<span class="nc" id="L14">       super();</span>
+<span class="nc" id="L15">       this.tamanho = 0;</span>
+<span class="nc" id="L16">       this.atacadores = false;</span>
+<span class="nc" id="L17">       this.cor = &quot;&quot;;</span>
+<span class="nc" id="L18">       this.anoLancamento = 0;</span>
+<span class="nc" id="L19">       this.premium = false;</span>
+<span class="nc" id="L20">    }</span>
+
+    public Sapatilha(String nome, String descricao, String marca, Integer codigo, float precoBase, float correcaoPreco, boolean novo, int numDonos, String condicao, String transportadora, int stock, String currentUser, int tamanho, boolean atacadores, String cor, int anoLancamento, boolean premium) {
+<span class="nc" id="L23">        super(nome, descricao, marca, codigo, precoBase, correcaoPreco, novo, numDonos, condicao, transportadora, stock, currentUser);</span>
+<span class="nc" id="L24">        this.tamanho = tamanho;</span>
+<span class="nc" id="L25">        this.atacadores = atacadores;</span>
+<span class="nc" id="L26">        this.cor = cor;</span>
+<span class="nc" id="L27">        this.anoLancamento = anoLancamento;</span>
+<span class="nc" id="L28">        this.premium = premium;</span>
+<span class="nc" id="L29">    }</span>
+
+    public Sapatilha(int tamanho, boolean atacadores, String cor, int anoLancamento, boolean premium) {
+<span class="nc" id="L32">        super();</span>
+<span class="nc" id="L33">        this.tamanho = tamanho;</span>
+<span class="nc" id="L34">        this.atacadores = atacadores;</span>
+<span class="nc" id="L35">        this.cor = cor;</span>
+<span class="nc" id="L36">        this.anoLancamento = anoLancamento;</span>
+<span class="nc" id="L37">        this.premium = premium;</span>
+<span class="nc" id="L38">    }</span>
+
+    public Sapatilha(Sapatilha sapatilha) {
+<span class="nc" id="L41">        super(sapatilha);</span>
+<span class="nc" id="L42">        this.tamanho = sapatilha.getTamanho();</span>
+<span class="nc" id="L43">        this.atacadores = sapatilha.getAtacadores();</span>
+<span class="nc" id="L44">        this.cor = sapatilha.getCor();</span>
+<span class="nc" id="L45">        this.anoLancamento = sapatilha.getAnoLancamento();</span>
+<span class="nc" id="L46">        this.premium = sapatilha.isPremium();</span>
+<span class="nc" id="L47">    }</span>
+
+    // getters
+    public int getTamanho() {
+<span class="nc" id="L51">        return tamanho;</span>
+    }
+
+    public boolean getAtacadores() {
+<span class="nc" id="L55">        return atacadores;</span>
+    }
+
+    public String getCor() {
+<span class="nc" id="L59">        return cor;</span>
+    }
+
+    public int getAnoLancamento() {
+<span class="nc" id="L63">        return anoLancamento;</span>
+    }
+
+    public boolean isPremium() {
+<span class="nc" id="L67">        return premium;</span>
+    }
+
+    // setters
+    public void setTamanho(int tamanho) {
+<span class="nc" id="L72">        this.tamanho = tamanho;</span>
+<span class="nc" id="L73">    }</span>
+
+    public void setAtacadores(boolean atacadores) {
+<span class="nc" id="L76">        this.atacadores = atacadores;</span>
+<span class="nc" id="L77">    }</span>
+
+    public void setCor(String cor) {
+<span class="nc" id="L80">        this.cor = cor;</span>
+<span class="nc" id="L81">    }</span>
+
+    public void setAnoLancamento(int anoLancamento) {
+<span class="nc" id="L84">        this.anoLancamento = anoLancamento;</span>
+<span class="nc" id="L85">    }</span>
+
+    public void setPremium(boolean premium) {
+<span class="nc" id="L88">        this.premium = premium;</span>
+<span class="nc" id="L89">    }</span>
+
+    // clone
+    public Sapatilha clone() {
+<span class="nc" id="L93">        return new Sapatilha(this);</span>
+    }
+
+    public float calcularPrecoFinal() {
+        float precoFinal;
+
+<span class="nc bnc" id="L99" title="All 2 branches missed.">        if (!isPremium()) {</span>
+<span class="nc bnc" id="L100" title="All 2 branches missed.">            if (getNumDonos() &gt; 0) {</span>
+<span class="nc" id="L101">                precoFinal = getPrecoBase() - (getPrecoBase() / getNumDonos());</span>
+            }
+            else {
+<span class="nc" id="L104">                precoFinal = getPrecoBase();</span>
+            }
+        }
+        else {
+<span class="nc" id="L108">            int anoAtual = LocalDate.now().getYear();</span>
+<span class="nc" id="L109">            int anosDiferenca = anoAtual - getAnoLancamento();</span>
+<span class="nc" id="L110">            precoFinal = getPrecoBase() + (float) anosDiferenca * 2.0f;</span>
+        }
+
+<span class="nc" id="L113">        setPrecoFinal(precoFinal);</span>
+<span class="nc" id="L114">        return precoFinal;</span>
+    }
+
+    // toString
+    public String toString() {
+<span class="nc" id="L119">    return super.toString() + &quot;, tipo: sapatilha, &quot; +</span>
+            &quot;tamanho: &quot; + tamanho + &quot;, &quot; +
+            &quot;possui atacadores: &quot; + atacadores + &quot;, &quot; +
+            &quot;cor: &quot; + cor + &quot;, &quot; +
+            &quot;ano de lançamento: &quot; + anoLancamento + &quot;, &quot; +
+            &quot;premium: &quot; + premium;
+    }
+
+
+    // equals
+    public boolean equals(Object obj) {
+<span class="nc bnc" id="L130" title="All 2 branches missed.">        if (obj == this) {</span>
+<span class="nc" id="L131">            return true;</span>
+        }
+<span class="nc bnc" id="L133" title="All 2 branches missed.">        if (!(obj instanceof Sapatilha)) {</span>
+<span class="nc" id="L134">            return false;</span>
+        }
+<span class="nc" id="L136">        Sapatilha other = (Sapatilha) obj;</span>
+<span class="nc bnc" id="L137" title="All 10 branches missed.">        return super.equals(obj) &amp;&amp;</span>
+        tamanho == other.tamanho &amp;&amp;
+        atacadores == other.atacadores &amp;&amp;
+<span class="nc bnc" id="L140" title="All 6 branches missed.">        (cor == null ? other.cor == null : cor.equals(other.cor)) &amp;&amp;</span>
+        anoLancamento == other.anoLancamento &amp;&amp;
+        premium == other.premium;
+    }
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
