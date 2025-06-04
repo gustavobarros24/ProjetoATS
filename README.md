@@ -23,7 +23,7 @@ Projeto no âmbito da UC Análise e Testes de Software
 - [x] Usar PIT para criar mutantes.
 - [ ] Usar Quickcheck ou Hypothesis para criar generators.
 
-### Projeto2: Só se tivermos tempo
+### Projeto2:
 
 - [x] Fazer testes unitários dos MODELOS (Classes abstratas são sempre testadas através das subclasses btw).
 - [ ] Usar EvoSuite para geração de testes automáticos.
@@ -35,7 +35,7 @@ Projeto no âmbito da UC Análise e Testes de Software
 
 - [x] Usar Maven para correr os testes e etc....
 - [x] Utilizar LLMs para geração de testes
-- [ ] Usar uma ferramenta de property based testing de Java (jqwik)
+- [x] Usar uma ferramenta de property based testing de Java (jqwik)
 
 ### Relatório
 
