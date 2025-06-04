@@ -1,4 +1,4 @@
 package TestModels;
 
-public class TrainingPlanManager {
+public class TrainingPlanManagerTest {
 }
