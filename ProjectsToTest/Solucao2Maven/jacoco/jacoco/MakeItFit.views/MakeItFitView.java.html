@@ -1,0 +1,852 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MakeItFitView.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Solucao2</a> &gt; <a href="index.source.html" class="el_package">MakeItFit.views</a> &gt; <span class="el_source">MakeItFitView.java</span></div><h1>MakeItFitView.java</h1><pre class="source lang-java linenums">package MakeItFit.views;
+
+import MakeItFit.MakeItFitController;
+import MakeItFit.exceptions.InvalidTypeException;
+import MakeItFit.menu.*;
+import MakeItFit.users.Gender;
+import MakeItFit.utils.MakeItFitDate;
+
+import java.util.*;
+
+/**
+ * The class MakeItFitView represents a base for the views.
+ *
+ * @author  Afonso Santos (a104276), Hélder Gomes (a104100) and Pedro Pereira (a104082)
+ * @version (11052024)
+ */
+public abstract class MakeItFitView {
+
+    public final MakeItFitController makeItFitController;
+    private String userType;
+    private String activityType;
+
+    /**
+     * Empty constructor of the class.
+     */
+<span class="nc" id="L26">    public MakeItFitView() {</span>
+<span class="nc" id="L27">        this.makeItFitController = new MakeItFitController();</span>
+<span class="nc" id="L28">        this.userType = &quot;UNDEFINED&quot;;</span>
+<span class="nc" id="L29">        this.activityType = &quot;UNDEFINED&quot;;</span>
+<span class="nc" id="L30">    }</span>
+
+    /*
+    * Abstract method login to be implemented by the subclasses such as user or admin.
+    */
+    public abstract void login();
+
+    /**
+     * Creates a new user.
+     * Requests the user's information from the console and creates a new user using the controller.
+     */
+    public void createUser() throws InvalidTypeException {
+<span class="nc" id="L42">        System.out.println(&quot;[APP] Creating user ...&quot;);</span>
+
+<span class="nc" id="L44">        Scanner scanner = new Scanner(System.in);</span>
+
+        try {
+<span class="nc" id="L47">            String userType = &quot;&quot;;</span>
+            do{
+<span class="nc" id="L49">                System.out.print(&quot;[APP] Please enter the type of user (Amateur | Occasional | Professional): &quot;);</span>
+<span class="nc" id="L50">                userType = scanner.nextLine();</span>
+<span class="nc bnc" id="L51" title="All 6 branches missed.">            } while (!userType.equals(&quot;Amateur&quot;) &amp;&amp; !userType.equals(&quot;Occasional&quot;) &amp;&amp; !userType.equals(&quot;Professional&quot;));</span>
+
+<span class="nc" id="L53">            this.userType = userType;</span>
+
+<span class="nc" id="L55">            System.out.println(&quot;[APP] Please enter the following information:&quot;);</span>
+
+<span class="nc" id="L57">            System.out.print(&quot;[APP] Name: &quot;);</span>
+<span class="nc" id="L58">            String name = scanner.nextLine();</span>
+<span class="nc" id="L59">            System.out.print(&quot;[APP] Age: &quot;);</span>
+<span class="nc" id="L60">            int age = scanner.nextInt();</span>
+<span class="nc" id="L61">            System.out.print(&quot;[APP] Gender (Male | Female | Other): &quot;);</span>
+<span class="nc" id="L62">            Gender gender = Gender.valueOf(scanner.next());</span>
+<span class="nc" id="L63">            System.out.print(&quot;[APP] Weight (Kg): &quot;);</span>
+<span class="nc" id="L64">            float weight = scanner.nextFloat();</span>
+<span class="nc" id="L65">            System.out.print(&quot;[APP] Height (cm): &quot;);</span>
+<span class="nc" id="L66">            int height = scanner.nextInt();</span>
+<span class="nc" id="L67">            System.out.print(&quot;[APP] Bpm: &quot;);</span>
+<span class="nc" id="L68">            int bpm = scanner.nextInt();</span>
+<span class="nc" id="L69">            System.out.print(&quot;[APP] Level: &quot;);</span>
+<span class="nc" id="L70">            int level = scanner.nextInt();</span>
+<span class="nc" id="L71">            scanner.nextLine(); // Consume the remaining newline</span>
+<span class="nc" id="L72">            System.out.print(&quot;[APP] Address: &quot;);</span>
+<span class="nc" id="L73">            String address = scanner.nextLine();</span>
+<span class="nc" id="L74">            System.out.print(&quot;[APP] Phone: &quot;);</span>
+<span class="nc" id="L75">            String phone = scanner.nextLine();</span>
+
+<span class="nc bnc" id="L77" title="All 3 branches missed.">            switch (this.userType) {</span>
+                case &quot;Amateur&quot;:
+<span class="nc" id="L79">                    this.makeItFitController.createUser(</span>
+                            name,
+                            age,
+                            gender,
+                            weight,
+                            height,
+                            bpm,
+                            level,
+                            address,
+                            phone,
+                            -1,
+                            this.userType
+                    );
+<span class="nc" id="L92">                    break;</span>
+
+                case &quot;Occasional&quot;:
+                case &quot;Professional&quot;:
+<span class="nc" id="L96">                    System.out.print(&quot;[APP] Frequency: &quot;);</span>
+<span class="nc" id="L97">                    int frequency = scanner.nextInt();</span>
+<span class="nc" id="L98">                    scanner.nextLine(); // Consume the remaining newline</span>
+
+<span class="nc" id="L100">                    this.makeItFitController.createUser(</span>
+                            name,
+                            age,
+                            gender,
+                            weight,
+                            height,
+                            bpm,
+                            level,
+                            address,
+                            phone,
+                            frequency,
+                            this.userType
+                    );
+<span class="nc" id="L113">                    break;</span>
+
+                default:
+<span class="nc" id="L116">                    System.out.println(&quot;[APP] Invalid type.&quot;);</span>
+                    break;
+            }
+<span class="nc" id="L119">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] User created successfully.&quot;);</span>
+<span class="nc" id="L120">        } catch (Exception e) {</span>
+<span class="nc" id="L121">            System.out.println(&quot;[APP] Invalid input.&quot;);</span>
+<span class="nc" id="L122">        }</span>
+<span class="nc" id="L123">    }</span>
+
+    /**
+     * Gets the user details.
+     */
+    public void getUserDetails() {
+<span class="nc" id="L129">        System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Getting user details ...&quot;);</span>
+
+        try {
+<span class="nc" id="L132">            System.out.println(this.makeItFitController.getUserDetails());</span>
+<span class="nc" id="L133">        } catch (Exception e) {</span>
+<span class="nc" id="L134">            System.out.println(&quot;[APP] Something went wrong.&quot;);</span>
+<span class="nc" id="L135">        }</span>
+<span class="nc" id="L136">    }</span>
+
+
+    /**
+     * Creates the update user menu of the application.
+     *
+     * @return The created update user menu.
+     */
+    public Menu createUpdateUserMenu() {
+<span class="nc" id="L145">        List&lt;MenuItem&gt; updateUserMenuItems = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L147">        updateUserMenuItems.add(new MenuItem(&quot;Update Name&quot;, () -&gt; updateName()));</span>
+<span class="nc" id="L148">        updateUserMenuItems.add(new MenuItem(&quot;Update Age&quot;, () -&gt; updateAge()));</span>
+<span class="nc" id="L149">        updateUserMenuItems.add(new MenuItem(&quot;Update Gender&quot;, () -&gt; updateGender()));</span>
+<span class="nc" id="L150">        updateUserMenuItems.add(new MenuItem(&quot;Update Weight&quot;, () -&gt; updateWeight()));</span>
+<span class="nc" id="L151">        updateUserMenuItems.add(new MenuItem(&quot;Update Height&quot;, () -&gt; updateHeight()));</span>
+<span class="nc" id="L152">        updateUserMenuItems.add(new MenuItem(&quot;Update BPM&quot;, () -&gt; updateBpm()));</span>
+<span class="nc" id="L153">        updateUserMenuItems.add(new MenuItem(&quot;Update Level&quot;, () -&gt; updateLevel()));</span>
+<span class="nc" id="L154">        updateUserMenuItems.add(new MenuItem(&quot;Update Address&quot;, () -&gt; updateAddress()));</span>
+<span class="nc" id="L155">        updateUserMenuItems.add(new MenuItem(&quot;Update Phone&quot;, () -&gt; updatePhone()));</span>
+<span class="nc" id="L156">        updateUserMenuItems.add(new MenuItem(&quot;Update Email&quot;, () -&gt; updateEmail()));</span>
+
+<span class="nc" id="L158">        return new Menu(updateUserMenuItems);</span>
+    }
+
+    /**
+     * Updates the name of the currently logged in user.
+     */
+    private void updateName() {
+<span class="nc" id="L165">        System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Updating name ...&quot;);</span>
+
+<span class="nc" id="L167">        Scanner scanner = new Scanner(System.in);</span>
+
+        try {
+<span class="nc" id="L170">            System.out.print(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Please enter the new name: &quot;);</span>
+<span class="nc" id="L171">            String name = scanner.nextLine();</span>
+
+<span class="nc" id="L173">            this.makeItFitController.updateName(name);</span>
+<span class="nc" id="L174">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Name updated successfully.&quot;);</span>
+<span class="nc" id="L175">        } catch (Exception e) {</span>
+<span class="nc" id="L176">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Invalid input.&quot;);</span>
+<span class="nc" id="L177">        }</span>
+<span class="nc" id="L178">    }</span>
+
+    /**
+     * Updates the age of the currently logged in user.
+     */
+    private void updateAge() {
+<span class="nc" id="L184">        System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Updating age ...&quot;);</span>
+
+<span class="nc" id="L186">        Scanner scanner = new Scanner(System.in);</span>
+
+        try {
+<span class="nc" id="L189">            System.out.print(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Please enter the new age: &quot;);</span>
+<span class="nc" id="L190">            int age = scanner.nextInt();</span>
+
+<span class="nc" id="L192">            this.makeItFitController.updateAge(age);</span>
+<span class="nc" id="L193">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Age updated successfully.&quot;);</span>
+<span class="nc" id="L194">        } catch (Exception e) {</span>
+<span class="nc" id="L195">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Invalid input.&quot;);</span>
+<span class="nc" id="L196">        }</span>
+<span class="nc" id="L197">    }</span>
+
+    /**
+     * Updates the gender of the currently logged in user.
+     */
+    private void updateGender() {
+<span class="nc" id="L203">        System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Updating gender ...&quot;);</span>
+
+<span class="nc" id="L205">        Scanner scanner = new Scanner(System.in);</span>
+
+        try {
+<span class="nc" id="L208">            System.out.print(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Please enter the gender (Male | Female | Other): &quot;);</span>
+<span class="nc" id="L209">            Gender gender = Gender.valueOf(scanner.next());</span>
+
+<span class="nc" id="L211">            this.makeItFitController.updateGender(gender);</span>
+<span class="nc" id="L212">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Gender updated successfully.&quot;);</span>
+<span class="nc" id="L213">        } catch (Exception e) {</span>
+<span class="nc" id="L214">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Invalid input.&quot;);</span>
+<span class="nc" id="L215">        }</span>
+<span class="nc" id="L216">    }</span>
+
+    /**
+     * Updates the weight of the currently logged in user.
+     */
+    private void updateWeight() {
+<span class="nc" id="L222">        System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Updating weight ...&quot;);</span>
+
+<span class="nc" id="L224">        Scanner scanner = new Scanner(System.in);</span>
+
+        try {
+<span class="nc" id="L227">            System.out.print(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Please enter the new weight: &quot;);</span>
+<span class="nc" id="L228">            float weight = scanner.nextFloat();</span>
+
+<span class="nc" id="L230">            this.makeItFitController.updateWeight(weight);</span>
+<span class="nc" id="L231">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Weight updated successfully.&quot;);</span>
+<span class="nc" id="L232">        } catch (Exception e) {</span>
+<span class="nc" id="L233">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Invalid input.&quot;);</span>
+<span class="nc" id="L234">        }</span>
+<span class="nc" id="L235">    }</span>
+
+    /**
+     * Updates the height of the currently logged in user.
+     */
+    private void updateHeight() {
+<span class="nc" id="L241">        System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Updating height ...&quot;);</span>
+
+<span class="nc" id="L243">        Scanner scanner = new Scanner(System.in);</span>
+
+        try {
+<span class="nc" id="L246">            System.out.print(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Please enter the new height: &quot;);</span>
+<span class="nc" id="L247">            int height = scanner.nextInt();</span>
+
+<span class="nc" id="L249">            this.makeItFitController.updateHeight(height);</span>
+<span class="nc" id="L250">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Height updated successfully.&quot;);</span>
+<span class="nc" id="L251">        } catch (Exception e) {</span>
+<span class="nc" id="L252">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Invalid input.&quot;);</span>
+<span class="nc" id="L253">        }</span>
+<span class="nc" id="L254">    }</span>
+
+    /**
+     * Updates the bpm of the currently logged in user.
+     */
+    private void updateBpm() {
+<span class="nc" id="L260">        System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Updating bpm ...&quot;);</span>
+
+<span class="nc" id="L262">        Scanner scanner = new Scanner(System.in);</span>
+
+        try {
+<span class="nc" id="L265">            System.out.print(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Please enter the new bpm: &quot;);</span>
+<span class="nc" id="L266">            int bpm = scanner.nextInt();</span>
+
+<span class="nc" id="L268">            this.makeItFitController.updateBpm(bpm);</span>
+<span class="nc" id="L269">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] BPM updated successfully.&quot;);</span>
+<span class="nc" id="L270">        } catch (Exception e) {</span>
+<span class="nc" id="L271">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Invalid input.&quot;);</span>
+<span class="nc" id="L272">        }</span>
+<span class="nc" id="L273">    }</span>
+
+    /**
+     * Updates the level of the currently logged in user.
+     */
+    private void updateLevel() {
+<span class="nc" id="L279">        System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Updating level ...&quot;);</span>
+
+<span class="nc" id="L281">        Scanner scanner = new Scanner(System.in);</span>
+
+        try {
+<span class="nc" id="L284">            System.out.print(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Please enter the new level: &quot;);</span>
+<span class="nc" id="L285">            int level = scanner.nextInt();</span>
+
+<span class="nc" id="L287">            this.makeItFitController.updateLevel(level);</span>
+<span class="nc" id="L288">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Level updated successfully.&quot;);</span>
+<span class="nc" id="L289">        } catch (Exception e) {</span>
+<span class="nc" id="L290">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Invalid input.&quot;);</span>
+<span class="nc" id="L291">        }</span>
+<span class="nc" id="L292">    }</span>
+
+    /**
+     * Updates the address of the currently logged in user.
+     */
+    private void updateAddress() {
+<span class="nc" id="L298">        System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Updating address ...&quot;);</span>
+
+<span class="nc" id="L300">        Scanner scanner = new Scanner(System.in);</span>
+
+        try {
+<span class="nc" id="L303">            System.out.print(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Please enter the new address: &quot;);</span>
+<span class="nc" id="L304">            String address = scanner.nextLine();</span>
+
+<span class="nc" id="L306">            this.makeItFitController.updateAddress(address);</span>
+<span class="nc" id="L307">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Address updated successfully.&quot;);</span>
+<span class="nc" id="L308">        } catch (Exception e) {</span>
+<span class="nc" id="L309">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Invalid input.&quot;);</span>
+<span class="nc" id="L310">        }</span>
+<span class="nc" id="L311">    }</span>
+
+    /**
+     * Updates the phone of the currently logged in user.
+     */
+    private void updatePhone() {
+<span class="nc" id="L317">        System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Updating phone ...&quot;);</span>
+
+<span class="nc" id="L319">        Scanner scanner = new Scanner(System.in);</span>
+
+        try {
+<span class="nc" id="L322">            System.out.print(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Please enter the new phone: &quot;);</span>
+<span class="nc" id="L323">            String phone = scanner.nextLine();</span>
+
+<span class="nc" id="L325">            this.makeItFitController.updatePhone(phone);</span>
+<span class="nc" id="L326">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Phone updated successfully.&quot;);</span>
+<span class="nc" id="L327">        } catch (Exception e) {</span>
+<span class="nc" id="L328">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Invalid input.&quot;);</span>
+<span class="nc" id="L329">        }</span>
+<span class="nc" id="L330">    }</span>
+
+    /**
+     * Updates the email of the currently logged in user.
+     */
+    private void updateEmail() {
+<span class="nc" id="L336">        System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Updating email ...&quot;);</span>
+
+<span class="nc" id="L338">        Scanner scanner = new Scanner(System.in);</span>
+
+        try {
+<span class="nc" id="L341">            System.out.print(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Please enter the new email: &quot;);</span>
+<span class="nc" id="L342">            String email = scanner.nextLine();</span>
+
+<span class="nc" id="L344">            this.makeItFitController.updateEmail(email);</span>
+<span class="nc" id="L345">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Email updated successfully.&quot;);</span>
+<span class="nc" id="L346">        } catch (Exception e) {</span>
+<span class="nc" id="L347">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Invalid input.&quot;);</span>
+<span class="nc" id="L348">        }</span>
+<span class="nc" id="L349">    }</span>
+
+    /**
+     * Adds an activity to the currently logged in user.
+     */
+    public void addActivityToUser() {
+<span class="nc" id="L355">        System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Adding activity to user ...&quot;);</span>
+
+<span class="nc" id="L357">        Scanner scanner = new Scanner(System.in);</span>
+
+        try {
+
+<span class="nc" id="L361">            String activityType = &quot;&quot;;</span>
+            do{
+<span class="nc" id="L363">                System.out.print(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Please select the activity (PushUp | WeightSquat | Running | Trail): &quot;);</span>
+<span class="nc" id="L364">                activityType = scanner.nextLine();</span>
+<span class="nc bnc" id="L365" title="All 8 branches missed.">            } while (!activityType.equals(&quot;PushUp&quot;) &amp;&amp; !activityType.equals(&quot;WeightSquat&quot;) &amp;&amp; !activityType.equals(&quot;Running&quot;) &amp;&amp; !activityType.equals(&quot;Trail&quot;));</span>
+
+<span class="nc" id="L367">            this.activityType = activityType;</span>
+
+<span class="nc" id="L369">            System.out.println(&quot;[APP] Please enter the following information:&quot;);</span>
+
+            try {
+<span class="nc" id="L372">                System.out.print(&quot;[APP] Date (dd/mm/aaaa): &quot;);</span>
+<span class="nc" id="L373">                MakeItFitDate date = MakeItFitDate.fromString(scanner.nextLine());</span>
+<span class="nc" id="L374">                System.out.print(&quot;[APP] Duration (minutes): &quot;);</span>
+<span class="nc" id="L375">                int duration = scanner.nextInt();</span>
+<span class="nc" id="L376">                scanner.nextLine(); // Consume the remaining newline</span>
+<span class="nc" id="L377">                System.out.print(&quot;[APP] Designation: &quot;);</span>
+<span class="nc" id="L378">                String designation = scanner.nextLine();</span>
+
+<span class="nc bnc" id="L380" title="All 5 branches missed.">                switch (this.activityType) {</span>
+                    case &quot;PushUp&quot;:
+<span class="nc" id="L382">                        System.out.print(&quot;[APP] Repetitions: &quot;);</span>
+<span class="nc" id="L383">                        int repetitions = scanner.nextInt();</span>
+<span class="nc" id="L384">                        System.out.print(&quot;[APP] Series: &quot;);</span>
+<span class="nc" id="L385">                        int series = scanner.nextInt();</span>
+<span class="nc" id="L386">                        scanner.nextLine(); // Consume the remaining newline</span>
+
+<span class="nc" id="L388">                        this.makeItFitController.addActivityToUser(</span>
+                                date,
+                                duration,
+                                designation,
+                                this.activityType,
+                                repetitions,
+                                series
+                        );
+<span class="nc" id="L396">                        break;</span>
+
+                    case &quot;Running&quot;:
+<span class="nc" id="L399">                        System.out.print(&quot;[APP] Distance (meters): &quot;);</span>
+<span class="nc" id="L400">                        double distance = scanner.nextInt();</span>
+<span class="nc" id="L401">                        scanner.nextLine(); // Consume the remaining newline</span>
+<span class="nc" id="L402">                        System.out.print(&quot;[APP] Speed (Km/h): &quot;);</span>
+<span class="nc" id="L403">                        double speed = scanner.nextDouble();</span>
+<span class="nc" id="L404">                        scanner.nextLine(); // Consume the remaining newline</span>
+
+<span class="nc" id="L406">                        this.makeItFitController.addActivityToUser(</span>
+                                date,
+                                duration,
+                                designation,
+                                this.activityType,
+                                distance,
+                                speed
+                        );
+<span class="nc" id="L414">                        break;</span>
+
+                    case &quot;Trail&quot;:
+<span class="nc" id="L417">                        System.out.print(&quot;[APP] Distance (meters): &quot;);</span>
+<span class="nc" id="L418">                        double trailDistance = scanner.nextInt();</span>
+<span class="nc" id="L419">                        scanner.nextLine(); // Consume the remaining newline</span>
+<span class="nc" id="L420">                        System.out.print(&quot;[APP] Elevation gain (meters): &quot;);</span>
+<span class="nc" id="L421">                        double elevationGain = scanner.nextInt();</span>
+<span class="nc" id="L422">                        scanner.nextLine(); // Consume the remaining newline</span>
+<span class="nc" id="L423">                        System.out.print(&quot;[APP] Elevation loss (meters): &quot;);</span>
+<span class="nc" id="L424">                        double elevationLoss = scanner.nextInt();</span>
+<span class="nc" id="L425">                        scanner.nextLine(); // Consume the remaining newline</span>
+<span class="nc" id="L426">                        System.out.print(&quot;[APP] Trail type ([0] Easy, [1] Medium, [2] Hard): &quot;);</span>
+<span class="nc" id="L427">                        int trailType = scanner.nextInt();</span>
+<span class="nc" id="L428">                        scanner.nextLine(); // Consume the remaining newline</span>
+
+<span class="nc" id="L430">                        this.makeItFitController.addActivityToUser(</span>
+                                date,
+                                duration,
+                                designation,
+                                this.activityType,
+                                trailDistance,
+                                elevationGain,
+                                elevationLoss,
+                                trailType
+                        );
+<span class="nc" id="L440">                        break;</span>
+
+                    case &quot;WeightSquat&quot;:
+<span class="nc" id="L443">                        System.out.print(&quot;[APP] Repetitions: &quot;);</span>
+<span class="nc" id="L444">                        int wsRepetitions = scanner.nextInt();</span>
+<span class="nc" id="L445">                        System.out.print(&quot;[APP] Series: &quot;);</span>
+<span class="nc" id="L446">                        int wsSeries = scanner.nextInt();</span>
+<span class="nc" id="L447">                        scanner.nextLine(); // Consume the remaining newline</span>
+<span class="nc" id="L448">                        System.out.print(&quot;[APP] Weight (Kg): &quot;);</span>
+<span class="nc" id="L449">                        double weight = scanner.nextDouble();</span>
+<span class="nc" id="L450">                        scanner.nextLine(); // Consume the remaining newline</span>
+
+<span class="nc" id="L452">                        this.makeItFitController.addActivityToUser(</span>
+                                date,
+                                duration,
+                                designation,
+                                this.activityType,
+                                wsRepetitions,
+                                wsSeries,
+                                weight
+                        );
+<span class="nc" id="L461">                        break;</span>
+
+                    default:
+<span class="nc" id="L464">                        System.out.println(&quot;[APP] Invalid type.&quot;);</span>
+                        break;
+                }
+<span class="nc" id="L467">            } catch (Exception e) {</span>
+<span class="nc" id="L468">                System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Invalid input.&quot;);</span>
+<span class="nc" id="L469">                return;</span>
+<span class="nc" id="L470">            }</span>
+
+<span class="nc" id="L472">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Activity added to user successfully.&quot;);</span>
+<span class="nc" id="L473">        } catch (Exception e) {</span>
+<span class="nc" id="L474">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Invalid input.&quot;);</span>
+<span class="nc" id="L475">        }</span>
+<span class="nc" id="L476">    }</span>
+
+    /**
+     * Removes an activity from the currently logged in user.
+     */
+    public void removeActivityFromUser() {
+<span class="nc" id="L482">        System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Removing activity from user ...&quot;);</span>
+
+<span class="nc" id="L484">        Scanner scanner = new Scanner(System.in);</span>
+
+        try {
+<span class="nc" id="L487">            System.out.print(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Please insert the code of the activity: &quot;);</span>
+<span class="nc" id="L488">            UUID code = UUID.fromString(scanner.nextLine());</span>
+
+<span class="nc" id="L490">            this.makeItFitController.removeActivityFromUser(code);</span>
+<span class="nc" id="L491">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Activity removed successfully.&quot;);</span>
+<span class="nc" id="L492">        } catch (Exception e) {</span>
+<span class="nc" id="L493">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Invalid input.&quot;);</span>
+<span class="nc" id="L494">        }</span>
+<span class="nc" id="L495">    }</span>
+
+    /**
+     * Lists the activities from the currently logged in user.
+     */
+    public void listActivities() {
+<span class="nc" id="L501">        System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Listing activities ...&quot;);</span>
+
+        try{
+<span class="nc" id="L504">        System.out.println(this.makeItFitController.getActivities());</span>
+<span class="nc" id="L505">        } catch(Exception e) {</span>
+<span class="nc" id="L506">            System.out.println(&quot;[APP] invalid input.&quot;);</span>
+<span class="nc" id="L507">        }</span>
+<span class="nc" id="L508">    }</span>
+
+    /**
+     * Creates a new training plan based on the provided specifications.
+     */
+    public void createTrainingPlan() {
+<span class="nc" id="L514">        System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Creating training plan ...&quot;);</span>
+
+<span class="nc" id="L516">        Scanner scanner = new Scanner(System.in);</span>
+
+        try {
+<span class="nc" id="L519">            System.out.print(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Please enter the start date (dd/mm/aaaa): &quot;);</span>
+<span class="nc" id="L520">            MakeItFitDate startDate = MakeItFitDate.fromString(scanner.nextLine());</span>
+
+<span class="nc" id="L522">            this.makeItFitController.createTrainingPlan(startDate);</span>
+<span class="nc" id="L523">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Training plan created successfully.&quot;);</span>
+
+<span class="nc" id="L525">            Menu trainingPlanMenu = createTrainingPlanMenu();</span>
+<span class="nc" id="L526">            trainingPlanMenu.run();</span>
+<span class="nc" id="L527">        } catch (Exception e) {</span>
+<span class="nc" id="L528">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Invalid input.&quot;);</span>
+<span class="nc" id="L529">        }</span>
+<span class="nc" id="L530">    }</span>
+
+    /**
+     * Generates a new training plan based on the provided specifications.
+     */
+    public Menu createTrainingPlanMenu() {
+<span class="nc" id="L536">        List&lt;MenuItem&gt; trainingPlanMenuItems = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L538">        trainingPlanMenuItems.add(new MenuItem(&quot;Construct plan&quot;, () -&gt; constructTrainingPlan()));</span>
+<span class="nc" id="L539">        trainingPlanMenuItems.add(new MenuItem(&quot;Generate plan&quot;, () -&gt; generateTrainingPlan()));</span>
+
+<span class="nc" id="L541">        return new Menu(trainingPlanMenuItems);</span>
+    }
+
+    /**
+     * Constructs a new training plan based on the provided specifications.
+     */
+    public void constructTrainingPlan() {
+<span class="nc" id="L548">        System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Constructing training plan ...&quot;);</span>
+
+        try {
+<span class="nc" id="L551">            addActivityToTrainingPlan();</span>
+
+<span class="nc" id="L553">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Training plan constructed successfully.&quot;);</span>
+<span class="nc" id="L554">        } catch (Exception e) {</span>
+<span class="nc" id="L555">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Invalid input.&quot;);</span>
+<span class="nc" id="L556">        }</span>
+<span class="nc" id="L557">    }</span>
+
+    /**
+     * Adds an activity to the training plan of the currently logged in user.
+     */
+    public void addActivityToTrainingPlan() {
+<span class="nc" id="L563">        System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Adding activity to training plan ...&quot;);</span>
+
+<span class="nc" id="L565">        Scanner scanner = new Scanner(System.in);</span>
+
+        try {
+<span class="nc" id="L568">            System.out.print(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Please enter the number of iterations for the activity: &quot;);</span>
+<span class="nc" id="L569">            int iterations = scanner.nextInt();</span>
+<span class="nc" id="L570">            scanner.nextLine(); // Consume the remaining line</span>
+
+<span class="nc" id="L572">            String activityType = &quot;&quot;;</span>
+
+            do{
+<span class="nc" id="L575">                System.out.print(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Please select the activity (PushUp | WeightSquat | Running | Trail): &quot;);</span>
+<span class="nc" id="L576">                activityType = scanner.nextLine();</span>
+<span class="nc bnc" id="L577" title="All 8 branches missed.">            } while (!activityType.equals(&quot;PushUp&quot;) &amp;&amp; !activityType.equals(&quot;WeightSquat&quot;) &amp;&amp; !activityType.equals(&quot;Running&quot;) &amp;&amp; !activityType.equals(&quot;Trail&quot;));</span>
+
+<span class="nc" id="L579">            this.activityType = activityType;</span>
+
+<span class="nc" id="L581">            System.out.println(&quot;[APP] Please enter the following information:&quot;);</span>
+
+            try {
+<span class="nc" id="L584">                System.out.print(&quot;[APP] Date (dd/mm/aaaa): &quot;);</span>
+<span class="nc" id="L585">                MakeItFitDate date = MakeItFitDate.fromString(scanner.nextLine());</span>
+<span class="nc" id="L586">                System.out.print(&quot;[APP] Duration (minutes): &quot;);</span>
+<span class="nc" id="L587">                int duration = scanner.nextInt();</span>
+<span class="nc" id="L588">                scanner.nextLine(); // Consume the remaining newline</span>
+<span class="nc" id="L589">                System.out.print(&quot;[APP] Designation: &quot;);</span>
+<span class="nc" id="L590">                String designation = scanner.nextLine();</span>
+
+<span class="nc bnc" id="L592" title="All 5 branches missed.">                switch (this.activityType) {</span>
+                    case &quot;PushUp&quot;:
+<span class="nc" id="L594">                        System.out.print(&quot;[APP] Repetitions: &quot;);</span>
+<span class="nc" id="L595">                        int repetitions = scanner.nextInt();</span>
+<span class="nc" id="L596">                        System.out.print(&quot;[APP] Series: &quot;);</span>
+<span class="nc" id="L597">                        int series = scanner.nextInt();</span>
+<span class="nc" id="L598">                        scanner.nextLine(); // Consume the remaining newline</span>
+
+<span class="nc" id="L600">                        this.makeItFitController.addActivityToTrainingPlan(</span>
+                                date,
+                                duration,
+                                designation,
+                                this.activityType,
+                                repetitions,
+                                series,
+                                iterations
+                        );
+<span class="nc" id="L609">                        break;</span>
+
+                    case &quot;Running&quot;:
+<span class="nc" id="L612">                        System.out.print(&quot;[APP] Distance (meters): &quot;);</span>
+<span class="nc" id="L613">                        double distance = scanner.nextInt();</span>
+<span class="nc" id="L614">                        scanner.nextLine(); // Consume the remaining newline</span>
+<span class="nc" id="L615">                        System.out.print(&quot;[APP] Speed (Km/h): &quot;);</span>
+<span class="nc" id="L616">                        double speed = scanner.nextDouble();</span>
+<span class="nc" id="L617">                        scanner.nextLine(); // Consume the remaining newline</span>
+
+<span class="nc" id="L619">                        this.makeItFitController.addActivityToTrainingPlan(</span>
+                                date,
+                                duration,
+                                designation,
+                                this.activityType,
+                                distance,
+                                speed,
+                                iterations
+                        );
+<span class="nc" id="L628">                        break;</span>
+
+                    case &quot;Trail&quot;:
+<span class="nc" id="L631">                        System.out.print(&quot;[APP] Distance (meters): &quot;);</span>
+<span class="nc" id="L632">                        double trailDistance = scanner.nextInt();</span>
+<span class="nc" id="L633">                        scanner.nextLine(); // Consume the remaining newline</span>
+<span class="nc" id="L634">                        System.out.print(&quot;[APP] Elevation gain (meters): &quot;);</span>
+<span class="nc" id="L635">                        double elevationGain = scanner.nextInt();</span>
+<span class="nc" id="L636">                        scanner.nextLine(); // Consume the remaining newline</span>
+<span class="nc" id="L637">                        System.out.print(&quot;[APP] Elevation loss (meters): &quot;);</span>
+<span class="nc" id="L638">                        double elevationLoss = scanner.nextInt();</span>
+<span class="nc" id="L639">                        scanner.nextLine(); // Consume the remaining newline</span>
+<span class="nc" id="L640">                        System.out.print(&quot;[APP] Trail type ([0] Easy, [1] Medium, [2] Hard): &quot;);</span>
+<span class="nc" id="L641">                        int trailType = scanner.nextInt();</span>
+<span class="nc" id="L642">                        scanner.nextLine(); // Consume the remaining newline</span>
+
+<span class="nc" id="L644">                        this.makeItFitController.addActivityToTrainingPlan(</span>
+                                date,
+                                duration,
+                                designation,
+                                this.activityType,
+                                trailDistance,
+                                elevationGain,
+                                elevationLoss,
+                                trailType,
+                                iterations
+                        );
+<span class="nc" id="L655">                        break;</span>
+
+                    case &quot;WeightSquat&quot;:
+<span class="nc" id="L658">                        System.out.print(&quot;[APP] Repetitions: &quot;);</span>
+<span class="nc" id="L659">                        int wsRepetitions = scanner.nextInt();</span>
+<span class="nc" id="L660">                        System.out.print(&quot;[APP] Series: &quot;);</span>
+<span class="nc" id="L661">                        int wsSeries = scanner.nextInt();</span>
+<span class="nc" id="L662">                        scanner.nextLine(); // Consume the remaining newline</span>
+<span class="nc" id="L663">                        System.out.print(&quot;[APP] Weight (Kg): &quot;);</span>
+<span class="nc" id="L664">                        double weight = scanner.nextDouble();</span>
+<span class="nc" id="L665">                        scanner.nextLine(); // Consume the remaining newline</span>
+
+<span class="nc" id="L667">                        this.makeItFitController.addActivityToTrainingPlan(</span>
+                                date,
+                                duration,
+                                designation,
+                                this.activityType,
+                                wsRepetitions,
+                                wsSeries,
+                                weight,
+                                iterations
+                        );
+<span class="nc" id="L677">                        break;</span>
+
+                    default:
+<span class="nc" id="L680">                        System.out.println(&quot;[APP] Invalid type.&quot;);</span>
+                        break;
+                }
+<span class="nc" id="L683">            } catch (Exception e) {</span>
+<span class="nc" id="L684">                System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Invalid input.&quot;);</span>
+<span class="nc" id="L685">                return;</span>
+<span class="nc" id="L686">            }</span>
+
+<span class="nc" id="L688">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Activity added to training plan successfully.&quot;);</span>
+<span class="nc" id="L689">        } catch (Exception e) {</span>
+<span class="nc" id="L690">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Invalid input.&quot;);</span>
+<span class="nc" id="L691">        }</span>
+<span class="nc" id="L692">    }</span>
+
+    /**
+     * Generates a new training plan based on the provided specifications.
+     */
+    public void generateTrainingPlan() {
+<span class="nc" id="L698">        System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Generating training plan ...&quot;);</span>
+
+<span class="nc" id="L700">        Scanner scanner = new Scanner(System.in);</span>
+
+        try {
+<span class="nc" id="L703">            System.out.print(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Do you want to add hard activities? (y/n): &quot;);</span>
+<span class="nc" id="L704">            String response = scanner.nextLine();</span>
+<span class="nc bnc" id="L705" title="All 4 branches missed.">            boolean hardActivities = response.equals(&quot;Y&quot;) || response.equals(&quot;y&quot;);</span>
+
+<span class="nc" id="L707">            int maxActivitiesPerDay = 4;</span>
+<span class="nc bnc" id="L708" title="All 2 branches missed.">            while (maxActivitiesPerDay &gt; 3) {</span>
+<span class="nc" id="L709">                System.out.print(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Please insert the maximum number of activities per day (max 3): &quot;);</span>
+<span class="nc" id="L710">                maxActivitiesPerDay = scanner.nextInt();</span>
+            }
+<span class="nc" id="L712">            scanner.nextLine(); // Consume the remaining newline</span>
+
+<span class="nc" id="L714">            System.out.print(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Please insert the maximum number of different activities: &quot;);</span>
+<span class="nc" id="L715">            int maxDifferentActivities = scanner.nextInt();</span>
+<span class="nc" id="L716">            scanner.nextLine(); // Consume the remaining newline</span>
+
+<span class="nc" id="L718">            int maxWeeklyRecurrence = 8;</span>
+<span class="nc bnc" id="L719" title="All 2 branches missed.">            while (maxWeeklyRecurrence &gt; 7) {</span>
+<span class="nc" id="L720">                System.out.print(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Please insert the weekly recurrence expected (max 7): &quot;);</span>
+<span class="nc" id="L721">                maxWeeklyRecurrence = scanner.nextInt();</span>
+            }
+<span class="nc" id="L723">            scanner.nextLine(); // Consume the remaining newline</span>
+
+<span class="nc" id="L725">            int minCalories = 0;</span>
+<span class="nc bnc" id="L726" title="All 2 branches missed.">            while (minCalories &lt; 1) {</span>
+<span class="nc" id="L727">                System.out.print(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Please insert the minimum number of calories to be consumed: &quot;);</span>
+<span class="nc" id="L728">                minCalories = scanner.nextInt();</span>
+            }
+<span class="nc" id="L730">            scanner.nextLine(); // Consume the remaining newline</span>
+
+<span class="nc" id="L732">            this.makeItFitController.constructTrainingPlanByObjectives(hardActivities, maxActivitiesPerDay, maxDifferentActivities, maxWeeklyRecurrence, minCalories);</span>
+<span class="nc" id="L733">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Training plan generated successfully.&quot;);</span>
+<span class="nc" id="L734">        } catch (Exception e) {</span>
+<span class="nc" id="L735">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Invalid input.&quot;);</span>
+<span class="nc" id="L736">        }</span>
+<span class="nc" id="L737">    }</span>
+
+    /**
+     * Removes an activity from the training plan of the currently logged in user.
+     */
+    public void removeActivityFromTrainingPlan() {
+<span class="nc" id="L743">        System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Removing activity from training plan ...&quot;);</span>
+
+<span class="nc" id="L745">        Scanner scanner = new Scanner(System.in);</span>
+
+        try {
+<span class="nc" id="L748">            System.out.print(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Please insert the code of the activity: &quot;);</span>
+<span class="nc" id="L749">            UUID code = UUID.fromString(scanner.nextLine());</span>
+
+<span class="nc" id="L751">            this.makeItFitController.removeActivityFromTrainingPlan(code);</span>
+<span class="nc" id="L752">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Activity removed successfully.&quot;);</span>
+<span class="nc" id="L753">        } catch (Exception e) {</span>
+<span class="nc" id="L754">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Invalid input.&quot;);</span>
+<span class="nc" id="L755">        }</span>
+<span class="nc" id="L756">    }</span>
+
+    /**
+     * Removes a training plan from the currently logged in user.
+     */
+    public void removeTrainingPlan() {
+<span class="nc" id="L762">        System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Removing training plan ...&quot;);</span>
+
+<span class="nc" id="L764">        Scanner scanner = new Scanner(System.in);</span>
+
+        try {
+<span class="nc" id="L767">            System.out.print(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Please insert the code of the training plan: &quot;);</span>
+<span class="nc" id="L768">            UUID code = UUID.fromString(scanner.nextLine());</span>
+
+<span class="nc" id="L770">            this.makeItFitController.setTrainingPlan(code);</span>
+
+<span class="nc" id="L772">            this.makeItFitController.removeTrainingPlan();</span>
+<span class="nc" id="L773">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Training plan removed successfully.&quot;);</span>
+<span class="nc" id="L774">        } catch (Exception e) {</span>
+<span class="nc" id="L775">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Invalid input.&quot;);</span>
+<span class="nc" id="L776">        }</span>
+<span class="nc" id="L777">    }</span>
+
+    /**
+     * Selects a training plan from the currently logged in user.
+     */
+    public void selectTrainingPlan() throws RuntimeException {
+<span class="nc" id="L783">        System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Selecting training plan ...&quot;);</span>
+
+<span class="nc" id="L785">        Scanner scanner = new Scanner(System.in);</span>
+
+        try {
+<span class="nc" id="L788">            System.out.print(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Please insert the code of the training plan: &quot;);</span>
+<span class="nc" id="L789">            UUID code = UUID.fromString(scanner.nextLine());</span>
+
+<span class="nc" id="L791">            this.makeItFitController.setTrainingPlan(code);</span>
+<span class="nc" id="L792">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Training plan selected successfully.&quot;);</span>
+<span class="nc" id="L793">        } catch (Exception e) {</span>
+<span class="nc" id="L794">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Invalid input.&quot;);</span>
+<span class="nc" id="L795">            throw new RuntimeException();</span>
+<span class="nc" id="L796">        }</span>
+<span class="nc" id="L797">    }</span>
+
+    /**
+     * Lists all training plans from the currently logged in user.
+     */
+    public void listAllTrainingPlansFromUser() {
+<span class="nc" id="L803">        System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Listing all training plans ...&quot;);</span>
+
+        try {
+<span class="nc" id="L806">            System.out.println(this.makeItFitController.getTrainingPlansFromUser());</span>
+<span class="nc" id="L807">        } catch (Exception e) {</span>
+<span class="nc" id="L808">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Unexpected behaviour.&quot;);</span>
+<span class="nc" id="L809">        }</span>
+<span class="nc" id="L810">    }</span>
+
+    /**
+     * Advances the time of the application.
+     */
+    public void advanceTimeManager() {
+<span class="nc" id="L816">        System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Advancing time ...&quot;);</span>
+
+<span class="nc" id="L818">        Scanner scanner = new Scanner(System.in);</span>
+
+        try {
+<span class="nc" id="L821">            System.out.print(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Please enter the number of days to advance: &quot;);</span>
+<span class="nc" id="L822">            int days = scanner.nextInt();</span>
+<span class="nc" id="L823">            scanner.nextLine(); // Consume the remaining newline</span>
+
+<span class="nc" id="L825">            this.makeItFitController.updateSystemDate(days);</span>
+<span class="nc" id="L826">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Time advanced successfully.&quot;);</span>
+<span class="nc" id="L827">        } catch (Exception e) {</span>
+<span class="nc" id="L828">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Invalid input.&quot;);</span>
+<span class="nc" id="L829">        }</span>
+<span class="nc" id="L830">    }</span>
+
+    /**
+     * Saves the current state of the application.
+     */
+    public void saveSystem() {
+<span class="nc" id="L836">        System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Saving system state ...&quot;);</span>
+
+<span class="nc" id="L838">        Scanner scanner = new Scanner(System.in);</span>
+
+        try {
+<span class="nc" id="L841">            System.out.print(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Please enter the file name: &quot;);</span>
+<span class="nc" id="L842">            String fileName = scanner.nextLine();</span>
+
+<span class="nc" id="L844">            this.makeItFitController.saveSystem(fileName);</span>
+<span class="nc" id="L845">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] System state saved successfully.&quot;);</span>
+<span class="nc" id="L846">        } catch (Exception e) {</span>
+<span class="nc" id="L847">            System.out.println(&quot;View: &quot; + e.getMessage());</span>
+<span class="nc" id="L848">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Could not save the file.&quot;);</span>
+<span class="nc" id="L849">        }</span>
+<span class="nc" id="L850">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

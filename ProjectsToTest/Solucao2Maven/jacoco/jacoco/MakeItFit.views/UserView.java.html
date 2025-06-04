@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserView.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Solucao2</a> &gt; <a href="index.source.html" class="el_package">MakeItFit.views</a> &gt; <span class="el_source">UserView.java</span></div><h1>UserView.java</h1><pre class="source lang-java linenums">package MakeItFit.views;
+
+import MakeItFit.menu.*;
+import java.util.*;
+
+import static MakeItFit.utils.EmailValidator.*;
+
+/**
+ * The class UserView represents a view for a normal user.
+ *
+ * @author  Afonso Santos (a104276), Hélder Gomes (a104100) and Pedro Pereira (a104082)
+ * @version (11052024)
+ */
+public class UserView extends MakeItFitView {
+
+    /*
+     * Empty constructor of the class.
+     */
+    public UserView() {
+<span class="nc" id="L20">        super();</span>
+<span class="nc" id="L21">    }</span>
+
+    /**
+     * Prompts the user to login.
+     * Requests the user's email from the console and logs the user in using the controller.
+     */
+    public void login() {
+<span class="nc" id="L28">        Scanner scanner = new Scanner(System.in);</span>
+<span class="nc" id="L29">        System.out.print(&quot;[APP] Do you want to load a previous state? (y/n): &quot;);</span>
+<span class="nc" id="L30">        String choice = scanner.nextLine();</span>
+
+<span class="nc bnc" id="L32" title="All 4 branches missed.">        if (choice.equals(&quot;Y&quot;) || choice.equals(&quot;y&quot;)) {</span>
+<span class="nc" id="L33">            System.out.print(&quot;[APP] Please enter the file name: &quot;);</span>
+<span class="nc" id="L34">            String fileName = scanner.nextLine();</span>
+            try {
+<span class="nc" id="L36">                this.makeItFitController.loadSystem(fileName);</span>
+<span class="nc" id="L37">                System.out.println(&quot;[APP] Loaded successfully.&quot;);</span>
+<span class="nc" id="L38">            } catch (Exception e) {</span>
+<span class="nc" id="L39">                System.out.println(&quot;[APP] Could not load the file.&quot;);</span>
+<span class="nc" id="L40">            }</span>
+        }
+
+<span class="nc" id="L43">        System.out.println(&quot;[APP] Logging in ...&quot;);</span>
+
+<span class="nc" id="L45">        Menu appMenu = createAppMenu();</span>
+
+        try {
+<span class="nc" id="L48">            String email = &quot;&quot;;</span>
+            do {
+<span class="nc" id="L50">                System.out.print(&quot;[APP] Please enter your email: &quot;);</span>
+<span class="nc" id="L51">                email = scanner.nextLine();</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">            } while (!isValidEmail(email));</span>
+<span class="nc" id="L53">            this.makeItFitController.login(email);</span>
+<span class="nc" id="L54">            System.out.println(&quot;[&quot; + this.makeItFitController.getName() + &quot;] Logged in successfully.&quot;);</span>
+
+<span class="nc" id="L56">            appMenu.run();</span>
+
+<span class="nc" id="L58">        } catch (Exception e) {</span>
+<span class="nc" id="L59">            System.out.println(&quot;[APP] The email &quot; + e.getMessage() + &quot; does not exist.&quot;);</span>
+
+<span class="nc" id="L61">            System.out.print(&quot;[APP] Would you like to create a new user? (y/n): &quot;);</span>
+
+<span class="nc" id="L63">            String response = scanner.nextLine();</span>
+
+<span class="nc bnc" id="L65" title="All 4 branches missed.">            if (response.equals(&quot;Y&quot;) || response.equals(&quot;y&quot;)) {</span>
+                
+                try {
+<span class="nc" id="L68">                    createUser();</span>
+<span class="nc" id="L69">                    appMenu.run();</span>
+<span class="nc" id="L70">                } catch (Exception e2) {</span>
+                    // TODO: appMenu.stopMenu();
+<span class="nc" id="L72">                }</span>
+            } else {
+<span class="nc" id="L74">                System.out.println(&quot;[APP] Exiting ...&quot;);</span>
+            }
+<span class="nc" id="L76">        }</span>
+<span class="nc" id="L77">    }</span>
+
+    /**
+     * Creates the app menu of the application.
+     *
+     * @return The created app menu.
+     */
+    private Menu createAppMenu() {
+<span class="nc" id="L85">        List&lt;MenuItem&gt; appMenuItems = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L87">        appMenuItems.add(new MenuItem(&quot;User Details&quot;, () -&gt; getUserDetails()));</span>
+
+<span class="nc" id="L89">        Menu updateUserMenu = createUpdateUserMenu();</span>
+<span class="nc" id="L90">        appMenuItems.add(new MenuItem(&quot;Update user info&quot;, updateUserMenu::run));</span>
+
+<span class="nc" id="L92">        appMenuItems.add(new MenuItem(&quot;Add activity&quot;, () -&gt; addActivityToUser()));</span>
+<span class="nc" id="L93">        appMenuItems.add(new MenuItem(&quot;Remove activity&quot;, () -&gt; removeActivityFromUser()));</span>
+<span class="nc" id="L94">        appMenuItems.add(new MenuItem(&quot;List activities&quot;, () -&gt; listActivities()));</span>
+<span class="nc" id="L95">        appMenuItems.add(new MenuItem(&quot;Create training plan&quot;, () -&gt; createTrainingPlan()));</span>
+<span class="nc" id="L96">        appMenuItems.add(new MenuItem(&quot;Remove training plan&quot;, () -&gt; removeTrainingPlan()));</span>
+<span class="nc" id="L97">        appMenuItems.add(new MenuItem(&quot;Add activity to a training plan&quot;, () -&gt; {</span>
+<span class="nc" id="L98">            selectTrainingPlan();</span>
+<span class="nc" id="L99">            addActivityToTrainingPlan();</span>
+<span class="nc" id="L100">        }));</span>
+<span class="nc" id="L101">        appMenuItems.add(new MenuItem(&quot;Remove activity from a training plan&quot;, () -&gt; {</span>
+<span class="nc" id="L102">            selectTrainingPlan();</span>
+<span class="nc" id="L103">            removeActivityFromTrainingPlan();</span>
+<span class="nc" id="L104">        }));</span>
+<span class="nc" id="L105">        appMenuItems.add(new MenuItem(&quot;List all training plans&quot;, () -&gt; listAllTrainingPlansFromUser()));</span>
+<span class="nc" id="L106">        appMenuItems.add(new MenuItem(&quot;Advance time&quot;, () -&gt; advanceTimeManager()));</span>
+<span class="nc" id="L107">        appMenuItems.add(new MenuItem(&quot;Save system state&quot;, () -&gt; saveSystem()));</span>
+
+<span class="nc" id="L109">        return new Menu(appMenuItems);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
