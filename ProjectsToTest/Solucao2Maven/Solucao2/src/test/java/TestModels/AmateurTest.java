@@ -6,14 +6,17 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
+//import static org.junit.Assert.assertEquals;
+//import static org.junit.Assert.assertNotNull;
+//import static org.junit.Assert.assertNotSame;
+//import static org.junit.Assert.assertTrue;
+//import org.junit.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 import MakeItFit.users.Gender;
 import MakeItFit.users.types.Amateur;
+import org.junit.jupiter.api.Test;
 
 public class AmateurTest {
 

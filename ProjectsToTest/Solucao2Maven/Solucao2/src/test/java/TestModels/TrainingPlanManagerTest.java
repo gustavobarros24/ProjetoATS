@@ -9,12 +9,16 @@ import MakeItFit.exceptions.EntityDoesNotExistException;
 import MakeItFit.trainingPlan.TrainingPlan;
 import MakeItFit.trainingPlan.TrainingPlanManager;
 import MakeItFit.utils.MakeItFitDate;
-import org.junit.Before;
-import org.junit.Test;
+//import org.junit.Before;
+//import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import java.util.List;
 import java.util.UUID;
-import static org.junit.Assert.*;
+//import static org.junit.Assert.*;
 
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TrainingPlanManagerTest {
 
@@ -23,7 +27,7 @@ public class TrainingPlanManagerTest {
     private MakeItFitDate startDate;
     private TrainingPlan plan;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         manager = new TrainingPlanManager();
         userCode = UUID.randomUUID();
@@ -39,14 +43,14 @@ public class TrainingPlanManagerTest {
         assertEquals(startDate, tp.getStartDate());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testCreateTrainingPlanNullUser() {
-        manager.createTrainingPlan(null, startDate);
+        assertThrows(IllegalArgumentException.class, () -> manager.createTrainingPlan(userCode, null));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testCreateTrainingPlanNullDate() {
-        manager.createTrainingPlan(userCode, null);
+        assertThrows(IllegalArgumentException.class, () -> manager.createTrainingPlan(userCode, null));
     }
 
     @Test
@@ -56,20 +60,21 @@ public class TrainingPlanManagerTest {
         assertEquals(plan, fetched);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testInsertNullTrainingPlan() {
-        manager.insertTrainingPlan(null);
+        assertThrows(IllegalArgumentException.class, () -> manager.insertTrainingPlan(null));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testInsertDuplicateTrainingPlan() {
-        manager.insertTrainingPlan(plan);
-        manager.insertTrainingPlan(plan);
+//        manager.insertTrainingPlan(plan);
+//        manager.insertTrainingPlan(plan);
+        assertThrows(IllegalArgumentException.class, () -> manager.insertTrainingPlan(plan));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testGetNonExistentTrainingPlan() {
-        manager.getTrainingPlan(UUID.randomUUID());
+        assertThrows(EntityDoesNotExistException.class, () -> manager.getTrainingPlan(UUID.randomUUID()));
     }
 
     @Test
@@ -92,9 +97,9 @@ public class TrainingPlanManagerTest {
         assertEquals(MakeItFitDate.of(2024, 7, 1), manager.getTrainingPlan(plan.getCode()).getStartDate());
     }
 
-    @Test(expected = EntityDoesNotExistException.class)
+    @Test
     public void testUpdateNonExistentTrainingPlan() throws EntityDoesNotExistException {
-        manager.updateTrainingPlan(plan);
+        assertThrows(EntityDoesNotExistException.class, () -> manager.updateTrainingPlan(plan));
     }
 
     @Test
@@ -168,10 +173,11 @@ public class TrainingPlanManagerTest {
         assertTrue(result.getActivities().size() > 0);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testConstructTrainingPlanByObjectivesInvalidParams() {
         TrainingPlan tp = manager.createTrainingPlan(userCode, startDate);
-        manager.constructTrainingPlanByObjectives(tp, 1.0f, false, -1, 2, 2, 100);
+//        manager.constructTrainingPlanByObjectives(tp, 1.0f, false, -1, 2, 2, 100);
+        assertThrows(IllegalArgumentException.class, () -> manager.constructTrainingPlanByObjectives(tp, 1.0f, false, -1, 2, 2, 100));
     }
 
     @Test

@@ -2,19 +2,21 @@ package TestModels;
 
 import java.util.UUID;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertTrue;
-import org.junit.Before;
-import org.junit.Test;
+//import static org.junit.Assert.assertEquals;
+//import static org.junit.Assert.assertFalse;
+//import static org.junit.Assert.assertNotNull;
+//import static org.junit.Assert.assertNotSame;
+//import static org.junit.Assert.assertTrue;
+//import org.junit.Before;
+//import org.junit.Test;
 
 import MakeItFit.activities.implementation.PushUp;
 import MakeItFit.utils.MakeItFitDate;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 
-
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class PushUpTest {
@@ -28,7 +30,7 @@ public class PushUpTest {
     private int series;
     private PushUp pushUp;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         userCode = UUID.randomUUID();
         realizationDate = MakeItFitDate.of(2024, 6, 1);

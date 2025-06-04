@@ -1,15 +1,16 @@
 package TestModels;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
+//import static org.junit.Assert.assertEquals;
+//import static org.junit.Assert.assertFalse;
+//import static org.junit.Assert.assertNotSame;
+//import static org.junit.Assert.assertTrue;
+//import org.junit.Test;
 
 import MakeItFit.users.Gender;
 import MakeItFit.users.types.Occasional;
+import org.junit.jupiter.api.Test;
 
-
+import static org.junit.jupiter.api.Assertions.*;
 
 public class OccasionalTest {
 
@@ -35,10 +36,11 @@ public class OccasionalTest {
         assertEquals(0, o.getFrequency());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testSetFrequencyNegativeThrowsException() {
         Occasional o = createSampleOccasional(1);
-        o.setFrequency(-1);
+//        o.setFrequency(-1);
+        assertThrows(IllegalArgumentException.class, () -> o.setFrequency(-1));
     }
 
     @Test

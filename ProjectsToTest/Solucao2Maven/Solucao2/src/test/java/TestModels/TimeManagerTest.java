@@ -1,21 +1,24 @@
 package TestModels;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import org.junit.Before;
-import org.junit.Test;
+//import static org.junit.Assert.assertEquals;
+//import static org.junit.Assert.assertNotNull;
+//import static org.junit.Assert.assertNotSame;
+//import org.junit.Before;
+//import org.junit.Test;
 
 import MakeItFit.time.TimeManager;
 import MakeItFit.utils.MakeItFitDate;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TimeManagerTest {
 
     private MakeItFitDate initialDate;
     private TimeManager timeManager;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         initialDate = MakeItFitDate.of(2024, 6, 1); // exemplo de data
         timeManager = new TimeManager(initialDate);
@@ -53,9 +56,10 @@ public class TimeManagerTest {
         assertEquals(initialDate, timeManager.getCurrentDate());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testAdvanceTimeNegativeDaysThrowsException() {
-        timeManager.advanceTime(-1);
+//        timeManager.advanceTime(-1);
+        assertThrows(IllegalArgumentException.class, () -> timeManager.advanceTime(-1));
     }
 
     @Test

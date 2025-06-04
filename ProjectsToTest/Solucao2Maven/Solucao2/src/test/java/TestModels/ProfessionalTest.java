@@ -1,21 +1,23 @@
 package TestModels;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertTrue;
-import org.junit.Before;
-import org.junit.Test;
+//import static org.junit.Assert.assertEquals;
+//import static org.junit.Assert.assertNotSame;
+//import static org.junit.Assert.assertTrue;
+//import org.junit.Before;
+//import org.junit.Test;
 
 import MakeItFit.users.Gender;
 import MakeItFit.users.types.Professional;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ProfessionalTest {
 
     private Professional professional;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         professional = new Professional(
                 "John Doe",

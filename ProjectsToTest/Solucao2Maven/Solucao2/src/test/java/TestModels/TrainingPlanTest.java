@@ -3,13 +3,13 @@ package TestModels;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertTrue;
-import org.junit.Before;
-import org.junit.Test;
+//import static org.junit.Assert.assertEquals;
+//import static org.junit.Assert.assertFalse;
+//import static org.junit.Assert.assertNotNull;
+//import static org.junit.Assert.assertNotSame;
+//import static org.junit.Assert.assertTrue;
+//import org.junit.Before;
+//import org.junit.Test;
 
 import MakeItFit.activities.Activity;
 import MakeItFit.activities.implementation.PushUp;
@@ -19,6 +19,9 @@ import MakeItFit.activities.implementation.WeightSquat;
 import MakeItFit.trainingPlan.TrainingPlan;
 import MakeItFit.utils.MakeItFitDate;
 import MakeItFit.utils.MyTuple;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TrainingPlanTest {
 
@@ -30,7 +33,7 @@ public class TrainingPlanTest {
     private Trail trail;
     private WeightSquat squat;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         userCode = UUID.randomUUID();
         startDate = MakeItFitDate.of(2024, 6, 1);

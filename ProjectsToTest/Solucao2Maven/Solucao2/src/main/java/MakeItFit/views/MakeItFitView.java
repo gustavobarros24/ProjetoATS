@@ -75,16 +75,46 @@ public abstract class MakeItFitView {
             String phone = scanner.nextLine();
 
             switch (this.userType) {
-                case "Amateur" ->
-                        this.makeItFitController.createUser(name, age, gender, weight, height, bpm, level, address, phone, -1, this.userType);
-                case "Occasional", "Professional" -> {
+                case "Amateur":
+                    this.makeItFitController.createUser(
+                            name,
+                            age,
+                            gender,
+                            weight,
+                            height,
+                            bpm,
+                            level,
+                            address,
+                            phone,
+                            -1,
+                            this.userType
+                    );
+                    break;
+
+                case "Occasional":
+                case "Professional":
                     System.out.print("[APP] Frequency: ");
                     int frequency = scanner.nextInt();
                     scanner.nextLine(); // Consume the remaining newline
 
-                    this.makeItFitController.createUser(name, age, gender, weight, height, bpm, level, address, phone, frequency, this.userType);
-                }
-                default -> {System.out.println("[APP] Invalid type.");}
+                    this.makeItFitController.createUser(
+                            name,
+                            age,
+                            gender,
+                            weight,
+                            height,
+                            bpm,
+                            level,
+                            address,
+                            phone,
+                            frequency,
+                            this.userType
+                    );
+                    break;
+
+                default:
+                    System.out.println("[APP] Invalid type.");
+                    break;
             }
             System.out.println("[" + this.makeItFitController.getName() + "] User created successfully.");
         } catch (Exception e) {
@@ -348,28 +378,44 @@ public abstract class MakeItFitView {
                 String designation = scanner.nextLine();
 
                 switch (this.activityType) {
-                    case "PushUp" -> {
+                    case "PushUp":
                         System.out.print("[APP] Repetitions: ");
                         int repetitions = scanner.nextInt();
                         System.out.print("[APP] Series: ");
                         int series = scanner.nextInt();
                         scanner.nextLine(); // Consume the remaining newline
 
-                        this.makeItFitController.addActivityToUser(date, duration, designation, this.activityType, repetitions, series);
-                    }
-                    case "Running" -> {
+                        this.makeItFitController.addActivityToUser(
+                                date,
+                                duration,
+                                designation,
+                                this.activityType,
+                                repetitions,
+                                series
+                        );
+                        break;
+
+                    case "Running":
                         System.out.print("[APP] Distance (meters): ");
                         double distance = scanner.nextInt();
                         scanner.nextLine(); // Consume the remaining newline
-                        System.out.print("[APP] Speed (Km/h):");
+                        System.out.print("[APP] Speed (Km/h): ");
                         double speed = scanner.nextDouble();
                         scanner.nextLine(); // Consume the remaining newline
 
-                        this.makeItFitController.addActivityToUser(date, duration, designation, this.activityType, distance, speed);
-                    }
-                    case "Trail" -> {
+                        this.makeItFitController.addActivityToUser(
+                                date,
+                                duration,
+                                designation,
+                                this.activityType,
+                                distance,
+                                speed
+                        );
+                        break;
+
+                    case "Trail":
                         System.out.print("[APP] Distance (meters): ");
-                        double distance = scanner.nextInt();
+                        double trailDistance = scanner.nextInt();
                         scanner.nextLine(); // Consume the remaining newline
                         System.out.print("[APP] Elevation gain (meters): ");
                         double elevationGain = scanner.nextInt();
@@ -381,21 +427,42 @@ public abstract class MakeItFitView {
                         int trailType = scanner.nextInt();
                         scanner.nextLine(); // Consume the remaining newline
 
-                        this.makeItFitController.addActivityToUser(date, duration, designation, this.activityType, distance, elevationGain, elevationLoss, trailType);
-                    }
-                    case "WeightSquat" -> {
+                        this.makeItFitController.addActivityToUser(
+                                date,
+                                duration,
+                                designation,
+                                this.activityType,
+                                trailDistance,
+                                elevationGain,
+                                elevationLoss,
+                                trailType
+                        );
+                        break;
+
+                    case "WeightSquat":
                         System.out.print("[APP] Repetitions: ");
-                        int repetitions = scanner.nextInt();
+                        int wsRepetitions = scanner.nextInt();
                         System.out.print("[APP] Series: ");
-                        int series = scanner.nextInt();
+                        int wsSeries = scanner.nextInt();
                         scanner.nextLine(); // Consume the remaining newline
                         System.out.print("[APP] Weight (Kg): ");
                         double weight = scanner.nextDouble();
                         scanner.nextLine(); // Consume the remaining newline
 
-                        this.makeItFitController.addActivityToUser(date, duration, designation, this.activityType, repetitions, series, weight);
-                    }
-                    default -> System.out.println("[APP] Invalid type.");
+                        this.makeItFitController.addActivityToUser(
+                                date,
+                                duration,
+                                designation,
+                                this.activityType,
+                                wsRepetitions,
+                                wsSeries,
+                                weight
+                        );
+                        break;
+
+                    default:
+                        System.out.println("[APP] Invalid type.");
+                        break;
                 }
             } catch (Exception e) {
                 System.out.println("[" + this.makeItFitController.getName() + "] Invalid input.");
@@ -523,16 +590,25 @@ public abstract class MakeItFitView {
                 String designation = scanner.nextLine();
 
                 switch (this.activityType) {
-                    case "PushUp" -> {
+                    case "PushUp":
                         System.out.print("[APP] Repetitions: ");
                         int repetitions = scanner.nextInt();
                         System.out.print("[APP] Series: ");
                         int series = scanner.nextInt();
                         scanner.nextLine(); // Consume the remaining newline
 
-                        this.makeItFitController.addActivityToTrainingPlan(date, duration, designation, this.activityType, repetitions, series, iterations);
-                    }
-                    case "Running" -> {
+                        this.makeItFitController.addActivityToTrainingPlan(
+                                date,
+                                duration,
+                                designation,
+                                this.activityType,
+                                repetitions,
+                                series,
+                                iterations
+                        );
+                        break;
+
+                    case "Running":
                         System.out.print("[APP] Distance (meters): ");
                         double distance = scanner.nextInt();
                         scanner.nextLine(); // Consume the remaining newline
@@ -540,11 +616,20 @@ public abstract class MakeItFitView {
                         double speed = scanner.nextDouble();
                         scanner.nextLine(); // Consume the remaining newline
 
-                        this.makeItFitController.addActivityToTrainingPlan(date, duration, designation, this.activityType, distance, speed, iterations);
-                    }
-                    case "Trail" -> {
+                        this.makeItFitController.addActivityToTrainingPlan(
+                                date,
+                                duration,
+                                designation,
+                                this.activityType,
+                                distance,
+                                speed,
+                                iterations
+                        );
+                        break;
+
+                    case "Trail":
                         System.out.print("[APP] Distance (meters): ");
-                        double distance = scanner.nextInt();
+                        double trailDistance = scanner.nextInt();
                         scanner.nextLine(); // Consume the remaining newline
                         System.out.print("[APP] Elevation gain (meters): ");
                         double elevationGain = scanner.nextInt();
@@ -556,21 +641,44 @@ public abstract class MakeItFitView {
                         int trailType = scanner.nextInt();
                         scanner.nextLine(); // Consume the remaining newline
 
-                        this.makeItFitController.addActivityToTrainingPlan(date, duration, designation, this.activityType, distance, elevationGain, elevationLoss, trailType, iterations);
-                    }
-                    case "WeightSquat" -> {
+                        this.makeItFitController.addActivityToTrainingPlan(
+                                date,
+                                duration,
+                                designation,
+                                this.activityType,
+                                trailDistance,
+                                elevationGain,
+                                elevationLoss,
+                                trailType,
+                                iterations
+                        );
+                        break;
+
+                    case "WeightSquat":
                         System.out.print("[APP] Repetitions: ");
-                        int repetitions = scanner.nextInt();
+                        int wsRepetitions = scanner.nextInt();
                         System.out.print("[APP] Series: ");
-                        int series = scanner.nextInt();
+                        int wsSeries = scanner.nextInt();
                         scanner.nextLine(); // Consume the remaining newline
                         System.out.print("[APP] Weight (Kg): ");
                         double weight = scanner.nextDouble();
                         scanner.nextLine(); // Consume the remaining newline
 
-                        this.makeItFitController.addActivityToTrainingPlan(date, duration, designation, this.activityType, repetitions, series, weight, iterations);
-                    }
-                    default -> System.out.println("[APP] Invalid type.");
+                        this.makeItFitController.addActivityToTrainingPlan(
+                                date,
+                                duration,
+                                designation,
+                                this.activityType,
+                                wsRepetitions,
+                                wsSeries,
+                                weight,
+                                iterations
+                        );
+                        break;
+
+                    default:
+                        System.out.println("[APP] Invalid type.");
+                        break;
                 }
             } catch (Exception e) {
                 System.out.println("[" + this.makeItFitController.getName() + "] Invalid input.");
