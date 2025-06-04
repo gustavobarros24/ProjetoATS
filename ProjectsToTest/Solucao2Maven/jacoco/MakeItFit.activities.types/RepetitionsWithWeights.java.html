@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RepetitionsWithWeights.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Solucao2</a> &gt; <a href="index.source.html" class="el_package">MakeItFit.activities.types</a> &gt; <span class="el_source">RepetitionsWithWeights.java</span></div><h1>RepetitionsWithWeights.java</h1><pre class="source lang-java linenums">package MakeItFit.activities.types;
+
+import MakeItFit.utils.MakeItFitDate;
+
+import java.io.Serializable;
+import java.util.UUID;
+
+public abstract class RepetitionsWithWeights extends Repetitions implements Serializable {
+    private double weight;
+
+    /**
+     * Constructs a new RepetitionsWithWeights instance with the specified parameters.
+     *
+     * @param userCode the user code
+     * @param realizationDate the realization date of the activity
+     * @param expectedDuration the expected duration of the activity
+     * @param designation the designation of the activity
+     * @param name the name of the activity
+     * @param repetitions the number of repetitions
+     * @param series the number of series
+     * @param weight the weight used during the activity
+     */
+    public RepetitionsWithWeights(UUID userCode, MakeItFitDate realizationDate, int expectedDuration, String designation, String name, int repetitions, int series, double weight) {
+<span class="fc" id="L24">        super(userCode, realizationDate, expectedDuration, designation, name, repetitions, series);</span>
+<span class="fc" id="L25">        this.weight = weight;</span>
+<span class="fc" id="L26">    }</span>
+
+    /**
+     * Constructs a new RepetitionsWithWeights instance with the default parameters.
+     */
+    public RepetitionsWithWeights() {
+<span class="nc" id="L32">        super();</span>
+<span class="nc" id="L33">        this.weight = 0;</span>
+<span class="nc" id="L34">    }</span>
+
+    /**
+     * Constructs a new RepetitionsWithWeights instance as a copy of another RepetitionsWithWeights instance.
+     *
+     * @param r the RepetitionsWithWeights instance to copy
+     */
+    public RepetitionsWithWeights(RepetitionsWithWeights r){
+<span class="fc" id="L42">        super(r);</span>
+<span class="fc" id="L43">        this.weight = r.getWeight();</span>
+<span class="fc" id="L44">    }</span>
+
+    /**
+     * Gets the weight used during the activity.
+     *
+     * @return the weight used
+     */
+    public double getWeight() {
+<span class="fc" id="L52">        return weight;</span>
+    }
+
+    /**
+     * Sets the weight used during the activity.
+     *
+     * @param weight the weight used
+     */
+    public void setWeight(double weight) {
+<span class="nc" id="L61">        this.weight = weight;</span>
+<span class="nc" id="L62">    }</span>
+
+    /**
+     * Calculates the caloric waste of the activity.
+     *
+     * @param index the index of the user
+     */
+    public abstract void calculateCaloricWaste(float index);
+
+    /**
+     * Calculates the caloric waste of the activity.
+     *
+     * @param index the index of the user
+     * @return the caloric waste of the activity
+     */
+    public abstract int caloricWaste(float index);
+
+    /**
+     * Returns a string representation of the RepetitionsWithWeights instance.
+     *
+     * @return a string representation of the RepetitionsWithWeights instance
+     */
+    @Override
+    public String toString(){
+<span class="fc" id="L86">        return super.toString() + &quot;Weight: &quot; + weight + &quot; Kg\n&quot;;</span>
+    }
+
+    /**
+     * Determines whether this RepetitionsWithWeights instance is equal to another object.
+     *
+     * @param o the object to compare with this instance
+     * @return true if the object is an instance of RepetitionsWithWeights and all attributes match; otherwise, false
+     */
+    public boolean equals(Object o){
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">        if (o == this) return true;</span>
+<span class="pc bpc" id="L97" title="1 of 2 branches missed.">        if (!(o instanceof RepetitionsWithWeights)) return false;</span>
+<span class="fc" id="L98">        RepetitionsWithWeights r = (RepetitionsWithWeights) o;</span>
+<span class="pc bpc" id="L99" title="1 of 4 branches missed.">        return super.equals(r) &amp;&amp; weight == r.getWeight();</span>
+    }
+
+    /**
+     * Clones the RepetitionsWithWeights instance.
+     *
+     * @return the cloned RepetitionsWithWeights instance
+     */
+    public abstract RepetitionsWithWeights clone();
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

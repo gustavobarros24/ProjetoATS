@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Trail.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Solucao2</a> &gt; <a href="index.source.html" class="el_package">MakeItFit.activities.implementation</a> &gt; <span class="el_source">Trail.java</span></div><h1>Trail.java</h1><pre class="source lang-java linenums">package MakeItFit.activities.implementation;
+
+import MakeItFit.activities.HardInterface;
+import MakeItFit.activities.types.DistanceWithAltimetry;
+import MakeItFit.utils.MakeItFitDate;
+
+import java.io.Serializable;
+import java.util.UUID;
+
+/**
+ * The Trail class represents a trail activity that includes distance and altimetry information.
+ * It extends the DistanceWithAltimetry class and includes a trail type (easy, medium, or hard).
+ *
+ * @author  Afonso Santos (a104276), Hélder Gomes (a104100) and Pedro Pereira (a104082)
+ * @version (11052024)
+ */
+public class Trail extends DistanceWithAltimetry implements HardInterface, Serializable {
+
+    // Constants representing the different types of trail difficulty
+    public static final int TRAIL_TYPE_EASY = 0;
+    public static final int TRAIL_TYPE_MEDIUM = 1;
+    public static final int TRAIL_TYPE_HARD = 2;
+
+    // The type of the trail, represented by one of the constants above
+    private int trailType;
+
+    /**
+     * Constructs a new Trail instance with the specified parameters.
+     *
+     * @param userCode       The user code associated with the activity.
+     * @param realizationDate The date the activity was realized.
+     * @param expectedDuration The expected duration of the activity.
+     * @param designation     The name or description of the activity.
+     * @param name            The name of the activity.
+     * @param distance        The distance covered during the activity.
+     * @param elevationGain   The total elevation gain during the activity.
+     * @param elevationLoss   The total elevation loss during the activity.
+     * @param trailType       The type of trail (easy, medium, or hard).
+     */
+    public Trail(UUID userCode, MakeItFitDate realizationDate, int expectedDuration, String designation, String name, double distance, double elevationGain, double elevationLoss, int trailType) {
+<span class="fc" id="L41">        super(userCode, realizationDate, expectedDuration, designation, name, distance, elevationGain, elevationLoss);</span>
+<span class="fc" id="L42">        setSpecialization(this.getClass().getSimpleName());</span>
+<span class="fc" id="L43">        this.trailType = trailType;</span>
+<span class="fc" id="L44">    }</span>
+
+    /**
+     * Constructs a new Trail instance with the default parameters.
+     */
+    public Trail() {
+<span class="fc" id="L50">        super();</span>
+<span class="fc" id="L51">        setSpecialization(this.getClass().getSimpleName());</span>
+<span class="fc" id="L52">        this.trailType = TRAIL_TYPE_EASY;</span>
+<span class="fc" id="L53">    }</span>
+
+    /**
+     * Constructs a new Trail instance as a copy of the specified Trail instance.
+     *
+     * @param trail The Trail instance to copy.
+     */
+    public Trail(Trail trail) {
+<span class="fc" id="L61">        super(trail);</span>
+<span class="fc" id="L62">        this.trailType = trail.getTrailType();</span>
+<span class="fc" id="L63">    }</span>
+
+    /**
+     * Returns the trail type of the Trail instance.
+     *
+     * @return The trail type (easy, medium, or hard).
+     */
+    public int getTrailType() {
+<span class="fc" id="L71">        return trailType;</span>
+    }
+
+    /**
+     * Sets the trail type of the Trail instance, ensuring it remains within valid bounds.
+     *
+     * @param trailType The trail type to set (easy, medium, or hard).
+     */
+    public void setTrailType(int trailType) {
+<span class="fc bfc" id="L80" title="All 2 branches covered.">        if (trailType &lt; TRAIL_TYPE_EASY) {</span>
+<span class="fc" id="L81">            this.trailType = TRAIL_TYPE_EASY;</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">        } else if (trailType &gt; TRAIL_TYPE_HARD) {</span>
+<span class="fc" id="L83">            this.trailType = TRAIL_TYPE_HARD;</span>
+        } else {
+<span class="fc" id="L85">            this.trailType = trailType;</span>
+        }
+<span class="fc" id="L87">    }</span>
+
+    /**
+     * Calculates the caloric waste for the Trail instance based on distance, elevation gain, and elevation loss.
+     *
+     * @return The calculated caloric waste as an integer.
+     */
+    public void calculateCaloricWaste(float index) {
+<span class="fc" id="L95">        setCaloricWaste(caloricWaste(index));</span>
+<span class="fc" id="L96">    }</span>
+
+    /**
+     * Calculates the caloric waste for the Trail instance based on distance, elevation gain, and elevation loss.
+     *
+     * @param index The index to be used in the calculation.
+     * @return The calculated caloric waste as an integer.
+     */
+    public int caloricWaste(float index) {
+<span class="fc" id="L105">        return (int) ((getDistance() * 0.5 + getElevationGain() * 0.1 - getElevationLoss() * 0.1) * index * 0.01);</span>
+    }
+
+    /**
+     * Returns a string representation of the Trail instance, including its trail type.
+     *
+     * @return The string representation of the Trail instance.
+     */
+    @Override
+    public String toString() {
+<span class="fc" id="L115">        return super.toString() + &quot;Trail Type: &quot; + trailType + &quot;\n&quot;;</span>
+    }
+
+    /**
+     * Compares the current Trail instance with another object for equality.
+     *
+     * @param obj The object to compare with.
+     * @return True if the other object is also a Trail instance with the same properties, false otherwise.
+     */
+    @Override
+    public boolean equals(Object obj) {
+<span class="fc bfc" id="L126" title="All 2 branches covered.">        if (this == obj) {</span>
+<span class="fc" id="L127">            return true;</span>
+        }
+<span class="fc bfc" id="L129" title="All 2 branches covered.">        if (!(obj instanceof Trail)) {</span>
+<span class="fc" id="L130">            return false;</span>
+        }
+<span class="fc" id="L132">        Trail trail = (Trail) obj;</span>
+<span class="pc bpc" id="L133" title="1 of 4 branches missed.">        return super.equals(trail) &amp;&amp; this.trailType == trail.getTrailType();</span>
+    }
+
+    /**
+     * Creates a copy of the current Trail instance.
+     *
+     * @return A new Trail instance that is a copy of the current instance.
+     */
+    @Override
+    public Trail clone() {
+<span class="fc" id="L143">        return new Trail(this);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

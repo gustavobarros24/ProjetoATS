@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Distance.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Solucao2</a> &gt; <a href="index.source.html" class="el_package">MakeItFit.activities.types</a> &gt; <span class="el_source">Distance.java</span></div><h1>Distance.java</h1><pre class="source lang-java linenums">package MakeItFit.activities.types;
+
+import MakeItFit.activities.Activity;
+import MakeItFit.utils.MakeItFitDate;
+
+import java.io.Serializable;
+import java.util.UUID;
+
+public abstract class Distance extends Activity implements Serializable {
+    private double distance;
+
+    /**
+     * Constructs a new Distance instance with the specified parameters.
+     *
+     * @param userCode the user code
+     * @param realizationDate the realization date of the activity
+     * @param expectedDuration the expected duration of the activity
+     * @param designation the designation of the activity
+     * @param name the name of the activity
+     * @param distance the distance covered during the activity
+     */
+    public Distance(UUID userCode, MakeItFitDate realizationDate, int expectedDuration, String designation, String name, double distance) {
+<span class="fc" id="L23">        super(userCode, realizationDate, expectedDuration, designation, name);</span>
+<span class="fc" id="L24">        this.distance = distance;</span>
+<span class="fc" id="L25">    }</span>
+
+    /**
+     * Constructs a new Distance instance with the default parameters.
+     */
+    public Distance() {
+<span class="fc" id="L31">        super();</span>
+<span class="fc" id="L32">        this.distance = 0;</span>
+<span class="fc" id="L33">    }</span>
+
+    /**
+     * Constructs a new Distance instance as a copy of another Distance instance.
+     *
+     * @param d the Distance instance to copy
+     */
+    public Distance(Distance d){
+<span class="fc" id="L41">        super(d);</span>
+<span class="fc" id="L42">        this.distance = d.getDistance();</span>
+<span class="fc" id="L43">    }</span>
+
+    /**
+     * Gets the distance covered during the activity.
+     *
+     * @return the distance covered
+     */
+    public double getDistance() {
+<span class="fc" id="L51">        return distance;</span>
+    }
+
+    /**
+     * Sets the distance covered during the activity.
+     *
+     * @param distance the distance covered
+     */
+    public void setDistance(double distance) {
+<span class="nc" id="L60">        this.distance = distance;</span>
+<span class="nc" id="L61">    }</span>
+
+    /**
+     * Calculates the caloric waste of the activity.
+     *
+     * @param index the index of the user
+     */
+    public abstract void calculateCaloricWaste(float index);
+
+    /**
+     * Calculates the caloric waste of the activity.
+     *
+     * @param index the index of the user
+     * @return the caloric waste of the activity
+     */
+    public abstract int caloricWaste(float index);
+
+    /**
+     * Returns a string representation of the Distance instance.
+     *
+     * @return the string representation of the Distance instance
+     */
+    public boolean equals(Object o){
+<span class="pc bpc" id="L84" title="1 of 2 branches missed.">        if (o == this) return true;</span>
+<span class="pc bpc" id="L85" title="1 of 2 branches missed.">        if (!(o instanceof Distance)) return false;</span>
+<span class="fc" id="L86">        Distance d = (Distance) o;</span>
+<span class="pc bpc" id="L87" title="1 of 4 branches missed.">        return (super.equals(d) &amp;&amp; this.distance == d.distance);</span>
+    }
+
+    /**
+     * Clones the Distance instance.
+     *
+     * @return the cloned Distance instance
+     */
+    public abstract Distance clone();
+
+    /**
+     * Returns a string representation of the Distance instance.
+     *
+     * @return the string representation of the Distance instance
+     */
+    @Override
+    public String toString(){
+<span class="fc" id="L104">        return super.toString() + &quot;Distance: &quot; + this.distance + &quot; meters, &quot;;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
