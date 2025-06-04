@@ -28,7 +28,7 @@ public class PlanoTreino implements Comparable<PlanoTreino>, Serializable
     /**
      * Classe AtividadeIteracoes, classe auxiliar para armazenar iterações de atividades
      */
-    class AtividadeIteracoes {
+    public class AtividadeIteracoes {
         //variáveis de instância
         private int iteracoes;
         private Atividade atividade;
