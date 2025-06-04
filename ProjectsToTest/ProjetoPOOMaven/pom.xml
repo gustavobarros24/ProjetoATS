@@ -39,6 +39,12 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-junit5-plugin</artifactId>
+            <version>1.2.1</version>
+        </dependency>
+
         <!-- JUnit Vintage Engine para executar testes JUnit4 via JUnit5 -->
         <dependency>
             <groupId>org.junit.vintage</groupId>
@@ -74,6 +80,25 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-maven</artifactId>
+                <version>1.16.2</version> <!-- ou a versão mais recente -->
+                <configuration>
+                    <targetClasses>
+                        <param>Vintage.*</param> <!-- ou o seu package, exemplo: com.seuprojeto.* -->
+                    </targetClasses>
+                    <targetTests>
+                        <param>Vintage.qql.*Test</param>
+                        <param>Vintage.mvc.*Test</param> <!-- seu package dos testes -->
+                    </targetTests>
+                    <excludedTestClasses>
+                        <param>Vintage.qql.*ESTest</param>
+                        <param>Vintage.mvc.*ESTest</param>
+                    </excludedTestClasses>
+                </configuration>
             </plugin>
 
             <!-- Maven Surefire plugin para executar testes JUnit4 e JUnit5 -->
