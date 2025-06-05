@@ -29,7 +29,7 @@ Projeto no âmbito da UC Análise e Testes de Software
 - [ ] Usar EvoSuite para geração de testes automáticos.
 - [x] Analisar cobertura dos testes (isto será mais para o relatório).
 - [x] Usar PIT para criar mutantes.
-- [ ] Usar Quickcheck ou Hypothesis para criar generators.
+- [x] Usar Quickcheck ou Hypothesis para criar generators.
 
 ### Extras
 
@@ -39,4 +39,4 @@ Projeto no âmbito da UC Análise e Testes de Software
 
 ### Relatório
 
-- [ ] Relatório
+- [x] Relatório
