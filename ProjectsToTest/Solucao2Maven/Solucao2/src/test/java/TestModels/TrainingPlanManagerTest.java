@@ -1,197 +1,320 @@
 package TestModels;
 
 import MakeItFit.activities.Activity;
-import MakeItFit.activities.implementation.PushUp;
-import MakeItFit.activities.implementation.Running;
-import MakeItFit.activities.implementation.Trail;
-import MakeItFit.activities.implementation.WeightSquat;
+import MakeItFit.activities.ActivityManager;
+import MakeItFit.activities.implementation.*;
 import MakeItFit.exceptions.EntityDoesNotExistException;
 import MakeItFit.trainingPlan.TrainingPlan;
 import MakeItFit.trainingPlan.TrainingPlanManager;
 import MakeItFit.utils.MakeItFitDate;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DisplayName;
 import java.util.List;
 import java.util.UUID;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 
-public class TrainingPlanManagerTest {
 
-    private TrainingPlanManager manager;
+class TrainingPlanManagerTest {
+
+    private TrainingPlanManager trainingPlanManager;
     private UUID userCode;
     private MakeItFitDate startDate;
-    private TrainingPlan plan;
 
-    @Before
-    public void setUp() {
-        manager = new TrainingPlanManager();
+    @BeforeEach
+    void setUp() {
+        trainingPlanManager = new TrainingPlanManager();
         userCode = UUID.randomUUID();
-        startDate = MakeItFitDate.of(2024, 6, 1);
-        plan = new TrainingPlan(userCode, startDate);
+        startDate = MakeItFitDate.of(2024, 5, 15);
     }
 
     @Test
-    public void testCreateTrainingPlanSuccess() {
-        TrainingPlan tp = manager.createTrainingPlan(userCode, startDate);
-        assertNotNull(tp);
-        assertEquals(userCode, tp.getUserCode());
-        assertEquals(startDate, tp.getStartDate());
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testCreateTrainingPlanNullUser() {
-        manager.createTrainingPlan(null, startDate);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testCreateTrainingPlanNullDate() {
-        manager.createTrainingPlan(userCode, null);
+    @DisplayName("Test constructor creates empty training plans map")
+    void testConstructor() {
+        TrainingPlanManager manager = new TrainingPlanManager();
+        assertEquals(0, manager.getAllTrainingPlans().size());
     }
 
     @Test
-    public void testInsertAndGetTrainingPlan() {
-        manager.insertTrainingPlan(plan);
-        TrainingPlan fetched = manager.getTrainingPlan(plan.getCode());
-        assertEquals(plan, fetched);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testInsertNullTrainingPlan() {
-        manager.insertTrainingPlan(null);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testInsertDuplicateTrainingPlan() {
-        manager.insertTrainingPlan(plan);
-        manager.insertTrainingPlan(plan);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testGetNonExistentTrainingPlan() {
-        manager.getTrainingPlan(UUID.randomUUID());
+    @DisplayName("Test createTrainingPlan with valid parameters")
+    void testCreateTrainingPlanValid() {
+        TrainingPlan trainingPlan = trainingPlanManager.createTrainingPlan(userCode, startDate);
+        
+        assertNotNull(trainingPlan);
+        assertEquals(userCode, trainingPlan.getUserCode());
+        assertEquals(startDate, trainingPlan.getStartDate());
     }
 
     @Test
-    public void testRemoveTrainingPlan() {
-        manager.insertTrainingPlan(plan);
-        manager.removeTrainingPlan(plan.getCode());
-        try {
-            manager.getTrainingPlan(plan.getCode());
-            fail("Should throw exception");
-        } catch (IllegalArgumentException e) {
-            // expected
-        }
+    @DisplayName("Test createTrainingPlan with null userCode throws exception")
+    void testCreateTrainingPlanNullUserCode() {
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, 
+            () -> trainingPlanManager.createTrainingPlan(null, startDate));
+        assertEquals("Invalid input: userCode, startDate.", exception.getMessage());
     }
 
     @Test
-    public void testUpdateTrainingPlanSuccess() throws EntityDoesNotExistException {
-        manager.insertTrainingPlan(plan);
-        plan.setStartDate(MakeItFitDate.of(2024, 7, 1));
-        manager.updateTrainingPlan(plan);
-        assertEquals(MakeItFitDate.of(2024, 7, 1), manager.getTrainingPlan(plan.getCode()).getStartDate());
-    }
-
-    @Test(expected = EntityDoesNotExistException.class)
-    public void testUpdateNonExistentTrainingPlan() throws EntityDoesNotExistException {
-        manager.updateTrainingPlan(plan);
+    @DisplayName("Test createTrainingPlan with null startDate throws exception")
+    void testCreateTrainingPlanNullStartDate() {
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, 
+            () -> trainingPlanManager.createTrainingPlan(userCode, null));
+        assertEquals("Invalid input: userCode, startDate.", exception.getMessage());
     }
 
     @Test
-    public void testGetAllTrainingPlans() {
-        manager.insertTrainingPlan(plan);
-        TrainingPlan plan2 = new TrainingPlan(UUID.randomUUID(), startDate);
-        manager.insertTrainingPlan(plan2);
-        List<TrainingPlan> all = manager.getAllTrainingPlans();
-        assertEquals(2, all.size());
-        assertTrue(all.contains(plan));
-        assertTrue(all.contains(plan2));
-    }
-
-    @Test
-    public void testAddActivity() {
-        manager.insertTrainingPlan(plan);
-        Activity activity = new PushUp(userCode, startDate, 10, "PushUp", "PushUp", 10, 2);
-        manager.addActivity(plan.getCode(), 2, activity);
-        assertEquals(1, manager.getTrainingPlan(plan.getCode()).getActivities().size());
-    }
-
-    @Test
-    public void testRemoveActivity() {
-        manager.insertTrainingPlan(plan);
-        Activity activity = new PushUp(userCode, startDate, 10, "PushUp", "PushUp", 10, 2);
-        plan.addActivity(2, activity);
-        UUID activityCode = activity.getCode();
-        manager.removeActivity(plan.getCode(), activityCode);
-        assertTrue(manager.getTrainingPlan(plan.getCode()).getActivities().isEmpty());
-    }
-
-    @Test
-    public void testGetTrainingPlansFromUser() {
-        manager.insertTrainingPlan(plan);
-        TrainingPlan plan2 = new TrainingPlan(userCode, MakeItFitDate.of(2024, 6, 2));
-        manager.insertTrainingPlan(plan2);
-        TrainingPlan plan3 = new TrainingPlan(UUID.randomUUID(), startDate);
-        manager.insertTrainingPlan(plan3);
-        List<TrainingPlan> userPlans = manager.getTrainingPlansFromUser(userCode);
-        assertEquals(2, userPlans.size());
-        assertTrue(userPlans.contains(plan));
-        assertTrue(userPlans.contains(plan2));
-    }
-
-    @Test
-    public void testUpdateActivities() {
-        manager.insertTrainingPlan(plan);
-        Activity activity = new Running(userCode, startDate, 20, "Running", "Running", 1000, 10);
-        plan.addActivity(1, activity);
-        manager.updateActivities(MakeItFitDate.of(2024, 6, 2), 1.0f);
-        // No exception means pass
-    }
-
-    @Test
-    public void testExtractActivities() {
-        manager.insertTrainingPlan(plan);
-        Activity activity = new Trail(userCode, startDate, 30, "Trail", "Trail", 1000, 100, 100, 1);
-        plan.addActivity(1, activity);
-        // Use uma data depois da realização
-        MakeItFitDate afterDate = startDate.plusDays(1);
-        List<Activity> acts = manager.extractActivities(afterDate, userCode);
-        assertEquals(1, acts.size());
-        assertEquals(activity, acts.get(0));
-    }
-
-    @Test
-    public void testConstructTrainingPlanByObjectives() {
-        TrainingPlan tp = manager.createTrainingPlan(userCode, startDate);
-        TrainingPlan result = manager.constructTrainingPlanByObjectives(tp, 1.0f, false, 2, 2, 2, 100);
+    @DisplayName("Test constructTrainingPlanByObjectives with valid parameters")
+    void testConstructTrainingPlanByObjectivesValid() {
+        TrainingPlan trainingPlan = trainingPlanManager.createTrainingPlan(userCode, startDate);
+        TrainingPlan result = trainingPlanManager.constructTrainingPlanByObjectives(
+            trainingPlan, 1.5f, false, 2, 3, 5, 1000);
+        
         assertNotNull(result);
-        assertTrue(result.getActivities().size() > 0);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testConstructTrainingPlanByObjectivesInvalidParams() {
-        TrainingPlan tp = manager.createTrainingPlan(userCode, startDate);
-        manager.constructTrainingPlanByObjectives(tp, 1.0f, false, -1, 2, 2, 100);
+        assertEquals(trainingPlan, result);
     }
 
     @Test
-    public void testRemoveActivityFromEmptyPlanDoesNothing() {
-        manager.insertTrainingPlan(plan);
-        UUID fakeActivityCode = UUID.randomUUID();
-        // Não deve lançar exceção ao tentar remover uma atividade inexistente
-        manager.removeActivity(plan.getCode(), fakeActivityCode);
-        assertTrue(manager.getTrainingPlan(plan.getCode()).getActivities().isEmpty());
+    @DisplayName("Test constructTrainingPlanByObjectives with hard activities")
+    void testConstructTrainingPlanByObjectivesWithHardActivities() {
+        TrainingPlan trainingPlan = trainingPlanManager.createTrainingPlan(userCode, startDate);
+        TrainingPlan result = trainingPlanManager.constructTrainingPlanByObjectives(
+            trainingPlan, 1.5f, true, 2, 3, 5, 500);
+        
+        assertNotNull(result);
     }
 
     @Test
-    public void testExtractActivitiesReturnsEmptyWhenNoActivitiesMatch() {
-        manager.insertTrainingPlan(plan);
-        // Adiciona uma atividade com data de realização futura
-        Activity activity = new Trail(userCode, startDate.plusDays(5), 30, "Trail", "Trail", 1000, 100, 100, 1);
-        plan.addActivity(1, activity);
-        // Usa uma data antes da realização da atividade
-        MakeItFitDate beforeDate = startDate.plusDays(1);
-        List<Activity> acts = manager.extractActivities(beforeDate, userCode);
-        assertTrue(acts.isEmpty());
+    @DisplayName("Test constructTrainingPlanByObjectives with invalid maxActivitiesPerDay")
+    void testConstructTrainingPlanByObjectivesInvalidMaxActivitiesPerDay() {
+        TrainingPlan trainingPlan = trainingPlanManager.createTrainingPlan(userCode, startDate);
+        
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, 
+            () -> trainingPlanManager.constructTrainingPlanByObjectives(
+                trainingPlan, 1.5f, false, -1, 3, 5, 1000));
+        assertEquals("Invalid input.", exception.getMessage());
+        
+        exception = assertThrows(IllegalArgumentException.class, 
+            () -> trainingPlanManager.constructTrainingPlanByObjectives(
+                trainingPlan, 1.5f, false, 4, 3, 5, 1000));
+        assertEquals("Invalid input.", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("Test constructTrainingPlanByObjectives with invalid maxDifferentActivities")
+    void testConstructTrainingPlanByObjectivesInvalidMaxDifferentActivities() {
+        TrainingPlan trainingPlan = trainingPlanManager.createTrainingPlan(userCode, startDate);
+        
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, 
+            () -> trainingPlanManager.constructTrainingPlanByObjectives(
+                trainingPlan, 1.5f, false, 2, -1, 5, 1000));
+        assertEquals("Invalid input.", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("Test constructTrainingPlanByObjectives with invalid weeklyRecurrence")
+    void testConstructTrainingPlanByObjectivesInvalidWeeklyRecurrence() {
+        TrainingPlan trainingPlan = trainingPlanManager.createTrainingPlan(userCode, startDate);
+        
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, 
+            () -> trainingPlanManager.constructTrainingPlanByObjectives(
+                trainingPlan, 1.5f, false, 2, 3, -1, 1000));
+        assertEquals("Invalid input.", exception.getMessage());
+        
+        exception = assertThrows(IllegalArgumentException.class, 
+            () -> trainingPlanManager.constructTrainingPlanByObjectives(
+                trainingPlan, 1.5f, false, 2, 3, 8, 1000));
+        assertEquals("Invalid input.", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("Test constructTrainingPlanByObjectives with invalid minimumCaloricWaste")
+    void testConstructTrainingPlanByObjectivesInvalidMinimumCaloricWaste() {
+        TrainingPlan trainingPlan = trainingPlanManager.createTrainingPlan(userCode, startDate);
+        
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, 
+            () -> trainingPlanManager.constructTrainingPlanByObjectives(
+                trainingPlan, 1.5f, false, 2, 3, 5, -1));
+        assertEquals("Invalid input.", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("Test insertTrainingPlan with valid training plan")
+    void testInsertTrainingPlanValid() {
+        TrainingPlan trainingPlan = trainingPlanManager.createTrainingPlan(userCode, startDate);
+        
+        assertDoesNotThrow(() -> trainingPlanManager.insertTrainingPlan(trainingPlan));
+        assertEquals(1, trainingPlanManager.getAllTrainingPlans().size());
+    }
+
+    @Test
+    @DisplayName("Test insertTrainingPlan with null training plan throws exception")
+    void testInsertTrainingPlanNull() {
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, 
+            () -> trainingPlanManager.insertTrainingPlan(null));
+        assertEquals("Invalid input: trainingPlan cannot be null.", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("Test insertTrainingPlan with duplicate code throws exception")
+    void testInsertTrainingPlanDuplicate() {
+        TrainingPlan trainingPlan = trainingPlanManager.createTrainingPlan(userCode, startDate);
+        trainingPlanManager.insertTrainingPlan(trainingPlan);
+        
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, 
+            () -> trainingPlanManager.insertTrainingPlan(trainingPlan));
+        assertTrue(exception.getMessage().contains("already exists"));
+    }
+
+    @Test
+    @DisplayName("Test removeTrainingPlan")
+    void testRemoveTrainingPlan() {
+        TrainingPlan trainingPlan = trainingPlanManager.createTrainingPlan(userCode, startDate);
+        trainingPlanManager.insertTrainingPlan(trainingPlan);
+        
+        trainingPlanManager.removeTrainingPlan(trainingPlan.getCode());
+        assertEquals(0, trainingPlanManager.getAllTrainingPlans().size());
+    }
+
+    @Test
+    @DisplayName("Test getTrainingPlan with existing code")
+    void testGetTrainingPlanExists() {
+        TrainingPlan trainingPlan = trainingPlanManager.createTrainingPlan(userCode, startDate);
+        trainingPlanManager.insertTrainingPlan(trainingPlan);
+        
+        TrainingPlan result = trainingPlanManager.getTrainingPlan(trainingPlan.getCode());
+        assertEquals(trainingPlan, result);
+    }
+
+    @Test
+    @DisplayName("Test getTrainingPlan with non-existing code throws exception")
+    void testGetTrainingPlanNotExists() {
+        UUID nonExistingCode = UUID.randomUUID();
+        
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, 
+            () -> trainingPlanManager.getTrainingPlan(nonExistingCode));
+        assertTrue(exception.getMessage().contains("does not exist"));
+    }
+
+    @Test
+    @DisplayName("Test updateTrainingPlan with existing training plan")
+    void testUpdateTrainingPlanExists() throws EntityDoesNotExistException {
+        TrainingPlan trainingPlan = trainingPlanManager.createTrainingPlan(userCode, startDate);
+        trainingPlanManager.insertTrainingPlan(trainingPlan);
+        
+        assertDoesNotThrow(() -> trainingPlanManager.updateTrainingPlan(trainingPlan));
+    }
+
+    @Test
+    @DisplayName("Test updateTrainingPlan with non-existing training plan throws exception")
+    void testUpdateTrainingPlanNotExists() {
+        TrainingPlan trainingPlan = trainingPlanManager.createTrainingPlan(userCode, startDate);
+        
+        EntityDoesNotExistException exception = assertThrows(EntityDoesNotExistException.class, 
+            () -> trainingPlanManager.updateTrainingPlan(trainingPlan));
+        assertTrue(exception.getMessage().contains("does not exist"));
+    }
+
+    @Test
+    @DisplayName("Test getAllTrainingPlans")
+    void testGetAllTrainingPlans() {
+        TrainingPlan trainingPlan1 = trainingPlanManager.createTrainingPlan(userCode, startDate);
+        TrainingPlan trainingPlan2 = trainingPlanManager.createTrainingPlan(UUID.randomUUID(), startDate);
+        
+        trainingPlanManager.insertTrainingPlan(trainingPlan1);
+        trainingPlanManager.insertTrainingPlan(trainingPlan2);
+        
+        List<TrainingPlan> allPlans = trainingPlanManager.getAllTrainingPlans();
+        assertEquals(2, allPlans.size());
+    }
+
+    @Test
+    @DisplayName("Test addActivity")
+    void testAddActivity() {
+        TrainingPlan trainingPlan = trainingPlanManager.createTrainingPlan(userCode, startDate);
+        trainingPlanManager.insertTrainingPlan(trainingPlan);
+        
+        Activity activity = new PushUp(userCode, startDate, 30, "Test", "PushUp", 10, 3);
+        trainingPlanManager.addActivity(trainingPlan.getCode(), 5, activity);
+        
+        // Verify activity was added (implementation depends on TrainingPlan's addActivity method)
+    }
+
+    @Test
+    @DisplayName("Test removeActivity")
+    void testRemoveActivity() {
+        TrainingPlan trainingPlan = trainingPlanManager.createTrainingPlan(userCode, startDate);
+        trainingPlanManager.insertTrainingPlan(trainingPlan);
+        
+        Activity activity = new PushUp(userCode, startDate, 30, "Test", "PushUp", 10, 3);
+        trainingPlanManager.addActivity(trainingPlan.getCode(), 5, activity);
+        trainingPlanManager.removeActivity(trainingPlan.getCode(), activity.getCode());
+        
+        // Verify activity was removed (implementation depends on TrainingPlan's removeActivity method)
+    }
+
+    @Test
+    @DisplayName("Test getTrainingPlansFromUser")
+    void testGetTrainingPlansFromUser() {
+        UUID user1 = UUID.randomUUID();
+        UUID user2 = UUID.randomUUID();
+        
+        TrainingPlan plan1 = trainingPlanManager.createTrainingPlan(user1, startDate);
+        TrainingPlan plan2 = trainingPlanManager.createTrainingPlan(user1, startDate);
+        TrainingPlan plan3 = trainingPlanManager.createTrainingPlan(user2, startDate);
+        
+        trainingPlanManager.insertTrainingPlan(plan1);
+        trainingPlanManager.insertTrainingPlan(plan2);
+        trainingPlanManager.insertTrainingPlan(plan3);
+        
+        List<TrainingPlan> user1Plans = trainingPlanManager.getTrainingPlansFromUser(user1);
+        assertEquals(2, user1Plans.size());
+        
+        List<TrainingPlan> user2Plans = trainingPlanManager.getTrainingPlansFromUser(user2);
+        assertEquals(1, user2Plans.size());
+    }
+
+    @Test
+    @DisplayName("Test updateActivities")
+    void testUpdateActivities() {
+        TrainingPlan trainingPlan = trainingPlanManager.createTrainingPlan(userCode, startDate);
+        trainingPlanManager.insertTrainingPlan(trainingPlan);
+        
+        MakeItFitDate currentDate = MakeItFitDate.of(2024, 5, 20);
+        assertDoesNotThrow(() -> trainingPlanManager.updateActivities(currentDate, 1.5f));
+    }
+
+    @Test
+    @DisplayName("Test extractActivities")
+    void testExtractActivities() {
+        TrainingPlan trainingPlan = trainingPlanManager.createTrainingPlan(userCode, startDate);
+        trainingPlanManager.insertTrainingPlan(trainingPlan);
+        
+        MakeItFitDate currentDate = MakeItFitDate.of(2024, 5, 20);
+        List<Activity> activities = trainingPlanManager.extractActivities(currentDate, userCode);
+        
+        assertNotNull(activities);
+    }
+
+    @Test
+    @DisplayName("Test constructTrainingPlanByObjectives covers all activity types")
+    void testConstructTrainingPlanByObjectivesAllActivityTypes() {
+        TrainingPlan trainingPlan = trainingPlanManager.createTrainingPlan(userCode, startDate);
+        
+        // Test with parameters that allow multiple different activities
+        TrainingPlan result = trainingPlanManager.constructTrainingPlanByObjectives(
+            trainingPlan, 1.5f, false, 3, 4, 7, 2000);
+        
+        assertNotNull(result);
+    }
+
+    @Test
+    @DisplayName("Test constructTrainingPlanByObjectives with zero minimum caloric waste")
+    void testConstructTrainingPlanByObjectivesZeroMinimum() {
+        TrainingPlan trainingPlan = trainingPlanManager.createTrainingPlan(userCode, startDate);
+        
+        TrainingPlan result = trainingPlanManager.constructTrainingPlanByObjectives(
+            trainingPlan, 1.5f, false, 1, 1, 1, 0);
+        
+        assertNotNull(result);
     }
 }

@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Utilizador.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ProjetoPOO</a> &gt; <a href="index.source.html" class="el_package">Vintage.qql</a> &gt; <span class="el_source">Utilizador.java</span></div><h1>Utilizador.java</h1><pre class="source lang-java linenums">package Vintage.qql;
+
+import Vintage.qql.Fatura.Tipo;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class Utilizador implements Serializable {
+
+    private String email;
+    private String nome;
+    private String morada;
+    private String nif;
+    private Map&lt;Integer, Artigo&gt; produtosAVenda;
+    private Map&lt;Integer, Artigo&gt; produtosVendidos;
+    private Map&lt;Integer, Encomenda&gt; encomendasFeitas;
+    private List&lt;Fatura&gt; faturas;
+    private Encomenda encomenda;
+    private float totalVendas;
+
+<span class="nc" id="L25">    public Utilizador(){</span>
+<span class="nc" id="L26">        this.email = &quot;&quot;;</span>
+<span class="nc" id="L27">        this.nome = &quot;&quot;;</span>
+<span class="nc" id="L28">        this.morada = &quot;&quot;;</span>
+<span class="nc" id="L29">        this.nif = &quot;&quot;;</span>
+<span class="nc" id="L30">        this.produtosAVenda = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L31">        this.produtosVendidos = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L32">        this.encomendasFeitas = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L33">        this.faturas = new ArrayList&lt;Fatura&gt;();</span>
+<span class="nc" id="L34">        this.encomenda = null;</span>
+<span class="nc" id="L35">        this.totalVendas = 0.0f;</span>
+<span class="nc" id="L36">    }</span>
+
+<span class="nc" id="L38">    public Utilizador(String nome, String email, String morada, String nif) {</span>
+<span class="nc" id="L39">        this.email = email;</span>
+<span class="nc" id="L40">        this.nome = nome;</span>
+<span class="nc" id="L41">        this.morada = morada;</span>
+<span class="nc" id="L42">        this.nif = nif;</span>
+<span class="nc" id="L43">        this.produtosAVenda = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L44">        this.produtosVendidos = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L45">        this.encomendasFeitas = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L46">        this.faturas = new ArrayList&lt;Fatura&gt;();</span>
+<span class="nc" id="L47">        this.totalVendas = 0.0f;</span>
+<span class="nc" id="L48">        this.encomenda = null;</span>
+<span class="nc" id="L49">    }</span>
+    
+<span class="nc" id="L51">    public Utilizador(Utilizador utilizador){</span>
+<span class="nc" id="L52">        this.email = utilizador.getEmail();</span>
+<span class="nc" id="L53">        this.nome = utilizador.getNome();</span>
+<span class="nc" id="L54">        this.morada = utilizador.getMorada();</span>
+<span class="nc" id="L55">        this.nif = utilizador.getNIF();</span>
+<span class="nc" id="L56">        this.produtosAVenda = utilizador.getProdutosAVenda();</span>
+<span class="nc" id="L57">        this.produtosVendidos = utilizador.getProdutosVendidos();</span>
+<span class="nc" id="L58">        this.encomendasFeitas = utilizador.getEncomendasFeitas();</span>
+<span class="nc" id="L59">        this.faturas = utilizador.getFaturas();</span>
+<span class="nc" id="L60">        this.totalVendas = utilizador.getTotalVendas();</span>
+<span class="nc" id="L61">        this.encomenda = utilizador.getEncomenda();</span>
+<span class="nc" id="L62">    }</span>
+
+    public String getEmail(){
+<span class="nc" id="L65">        return this.email;</span>
+    }
+
+    public String getNome(){
+<span class="nc" id="L69">        return this.nome;</span>
+    }
+
+    public String getMorada(){
+<span class="nc" id="L73">        return this.morada;</span>
+    }
+
+    public String getNIF(){
+<span class="nc" id="L77">        return this.nif;</span>
+    }
+
+    public Map&lt;Integer, Artigo&gt; getProdutosAVenda() {
+<span class="nc" id="L81">        Map&lt;Integer, Artigo&gt; produtosAVenda = new HashMap&lt;&gt;();</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">        for (Integer codigo : this.produtosAVenda.keySet()) {</span>
+<span class="nc" id="L83">            Object obj = this.produtosAVenda.get(codigo);</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">            if (obj instanceof Mala) {</span>
+<span class="nc" id="L85">                produtosAVenda.put(codigo, ((Mala) obj).clone());</span>
+            }
+<span class="nc bnc" id="L87" title="All 2 branches missed.">            else if (obj instanceof Sapatilha) {</span>
+<span class="nc" id="L88">                produtosAVenda.put(codigo, ((Sapatilha) obj).clone());</span>
+            }
+<span class="nc bnc" id="L90" title="All 2 branches missed.">            else if (obj instanceof TShirt) {</span>
+<span class="nc" id="L91">                produtosAVenda.put(codigo, ((TShirt) obj).clone());</span>
+            }
+<span class="nc" id="L93">        }</span>
+<span class="nc" id="L94">        return produtosAVenda;</span>
+    }
+
+    public Map&lt;Integer, Artigo&gt; getProdutosVendidos() {
+<span class="nc" id="L98">        Map&lt;Integer, Artigo&gt; produtosVendidos = new HashMap&lt;&gt;();</span>
+<span class="nc bnc" id="L99" title="All 2 branches missed.">        for (Integer codigo : this.produtosVendidos.keySet()) {</span>
+<span class="nc" id="L100">            Object obj = this.produtosVendidos.get(codigo);</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">            if (obj instanceof Mala) {</span>
+<span class="nc" id="L102">                produtosVendidos.put(codigo, ((Mala) obj).clone());</span>
+            }
+<span class="nc bnc" id="L104" title="All 2 branches missed.">            else if (obj instanceof Sapatilha) {</span>
+<span class="nc" id="L105">                produtosVendidos.put(codigo, ((Sapatilha) obj).clone());</span>
+            }
+<span class="nc bnc" id="L107" title="All 2 branches missed.">            else if (obj instanceof TShirt) {</span>
+<span class="nc" id="L108">                produtosVendidos.put(codigo, ((TShirt) obj).clone());</span>
+            }
+<span class="nc" id="L110">        }</span>
+<span class="nc" id="L111">        return produtosVendidos;</span>
+    }
+
+    public List&lt;Fatura&gt; getFaturas() {
+<span class="nc" id="L115">        return faturas;</span>
+    }
+
+    public Map&lt;Integer, Encomenda&gt; getEncomendasFeitas() {
+<span class="nc" id="L119">        return this.encomendasFeitas;</span>
+    }
+
+    public float getTotalVendas() {
+<span class="nc" id="L123">        return this.totalVendas;</span>
+    }
+    
+    public Encomenda getEncomenda() {
+<span class="nc" id="L127">        return this.encomenda;</span>
+    }
+
+    public void setEmail(String email){
+<span class="nc" id="L131">        this.email = email;</span>
+<span class="nc" id="L132">    }</span>
+
+    public void setNome(String nome){
+<span class="nc" id="L135">        this.nome = nome;</span>
+<span class="nc" id="L136">    }</span>
+
+    public void setMorada(String morada){
+<span class="nc" id="L139">        this.morada = morada;</span>
+<span class="nc" id="L140">    }</span>
+
+    public void setNIF(String nif){
+<span class="nc" id="L143">        this.nif = nif;</span>
+<span class="nc" id="L144">    }</span>
+
+    public void setProdutosAVenda(Map&lt;Integer, Artigo&gt; produtosAVenda) {
+<span class="nc" id="L147">        Map&lt;Integer, Artigo&gt; novoProdutosAVenda = new HashMap&lt;Integer, Artigo&gt;();</span>
+<span class="nc bnc" id="L148" title="All 2 branches missed.">        for (Integer codigo : produtosAVenda.keySet()) {</span>
+<span class="nc" id="L149">            Object obj = produtosAVenda.get(codigo);</span>
+<span class="nc bnc" id="L150" title="All 2 branches missed.">            if (obj instanceof Mala) {</span>
+<span class="nc" id="L151">                novoProdutosAVenda.put(codigo, ((Mala) obj).clone());</span>
+            }
+<span class="nc bnc" id="L153" title="All 2 branches missed.">            else if (obj instanceof Sapatilha) {</span>
+<span class="nc" id="L154">                novoProdutosAVenda.put(codigo, ((Sapatilha) obj).clone());</span>
+            }
+<span class="nc bnc" id="L156" title="All 2 branches missed.">            else if (obj instanceof TShirt) {</span>
+<span class="nc" id="L157">                novoProdutosAVenda.put(codigo, ((TShirt) obj).clone());</span>
+            }
+<span class="nc" id="L159">        }</span>
+<span class="nc" id="L160">        this.produtosAVenda = novoProdutosAVenda;</span>
+<span class="nc" id="L161">    }</span>
+
+    public void setProdutosVendidos(Map&lt;Integer, Artigo&gt; produtosVendidos) {
+<span class="nc" id="L164">        Map&lt;Integer, Artigo&gt; novoProdutosVendidos = new HashMap&lt;Integer, Artigo&gt;();</span>
+<span class="nc bnc" id="L165" title="All 2 branches missed.">        for (Integer codigo : produtosVendidos.keySet()) {</span>
+<span class="nc" id="L166">            Object obj = produtosVendidos.get(codigo);</span>
+<span class="nc bnc" id="L167" title="All 2 branches missed.">            if (obj instanceof Mala) {</span>
+<span class="nc" id="L168">                novoProdutosVendidos.put(codigo, ((Mala) obj).clone());</span>
+            }
+<span class="nc bnc" id="L170" title="All 2 branches missed.">            else if (obj instanceof Sapatilha) {</span>
+<span class="nc" id="L171">                novoProdutosVendidos.put(codigo, ((Sapatilha) obj).clone());</span>
+            }
+<span class="nc bnc" id="L173" title="All 2 branches missed.">            else if (obj instanceof TShirt) {</span>
+<span class="nc" id="L174">                novoProdutosVendidos.put(codigo, ((TShirt) obj).clone());</span>
+            }
+<span class="nc" id="L176">        }</span>
+<span class="nc" id="L177">        this.produtosVendidos = novoProdutosVendidos;</span>
+<span class="nc" id="L178">    }</span>
+
+    public void setFaturas(List&lt;Fatura&gt; faturas) {
+<span class="nc" id="L181">        this.faturas = faturas;</span>
+<span class="nc" id="L182">    }</span>
+
+    public void setTotalVendas(float totalVendas) {
+<span class="nc" id="L185">        this.totalVendas = totalVendas;</span>
+<span class="nc" id="L186">    }</span>
+
+    public void setEncomenda() {
+<span class="nc" id="L189">        this.encomenda = new Encomenda();</span>
+<span class="nc" id="L190">    }</span>
+
+    public void setEncomendaNull() {
+<span class="nc" id="L193">        this.encomenda = null;</span>
+<span class="nc" id="L194">    }</span>
+
+    public Utilizador clone() {
+<span class="nc" id="L197">        return new Utilizador(this);</span>
+    }
+
+    public Integer addArtigoEncomenda(Integer codigo, Integer stock) {
+<span class="nc" id="L201">        return this.encomenda.adicionarArtigo(codigo, stock);</span>
+    }
+
+    public Integer removeArtigoEncomenda(Integer codigo) {
+<span class="nc" id="L205">        return this.encomenda.removerArtigo(codigo);</span>
+    }
+
+    public void addArtigoProdutosAVenda(Integer codigo, Artigo artigo) {
+<span class="nc" id="L209">        produtosAVenda.put(codigo, artigo);</span>
+<span class="nc" id="L210">    }</span>
+
+    public void removeArtigoProdutosAVenda(Integer codigo) {
+<span class="nc" id="L213">        produtosAVenda.remove(codigo);</span>
+<span class="nc" id="L214">    }</span>
+    
+    public void addArtigoProdutosVendidos(Integer codigo, Artigo artigo, Integer stock) {
+<span class="nc" id="L217">        produtosVendidos.put(codigo, artigo);</span>
+
+<span class="nc" id="L219">        totalVendas += artigo.getPrecoFinal() * stock;</span>
+<span class="nc" id="L220">    }</span>
+
+    public void removeArtigoProdutosVendidos(Integer codigo) {
+<span class="nc" id="L223">        produtosVendidos.remove(codigo);</span>
+<span class="nc" id="L224">    }</span>
+
+    public void addEncomendaEncomendasFeitas(Integer codigo, Encomenda encomenda) {
+<span class="nc" id="L227">        encomendasFeitas.put(codigo, encomenda);</span>
+<span class="nc" id="L228">    }</span>
+
+    public void removeEncomendaEncomendasFeitas(Integer codigo) {
+<span class="nc" id="L231">        encomendasFeitas.remove(codigo);</span>
+<span class="nc" id="L232">    }</span>
+
+    public void addFatura(Fatura fatura) {
+<span class="nc" id="L235">        faturas.add(fatura);</span>
+<span class="nc" id="L236">    }</span>
+
+    public int numeroVendasEfetuadasDuranteUmPeriodoTempo(LocalDateTime date1, LocalDateTime date2) {
+<span class="nc" id="L239">        int count = 0;</span>
+<span class="nc" id="L240">        List&lt;Fatura&gt; faturas = this.getFaturas();</span>
+
+<span class="nc bnc" id="L242" title="All 2 branches missed.">        for (Fatura fatura: faturas) {</span>
+<span class="nc bnc" id="L243" title="All 8 branches missed.">            if ((fatura.getTipo() == Tipo.VENDA) &amp;&amp; ((fatura.getDataFinalizacao().isEqual(date1) == true) || (fatura.getDataFinalizacao().isBefore(date2) == true) &amp;&amp; (fatura.getDataFinalizacao().isAfter(date1) == true ))){</span>
+<span class="nc" id="L244">                count++;</span>
+            }
+<span class="nc" id="L246">        }</span>
+<span class="nc" id="L247">        return count;</span>
+    }
+
+    public float getTotalVendasPeriodo(LocalDateTime date1, LocalDateTime date2) {
+<span class="nc" id="L251">        float valor = 0;</span>
+<span class="nc" id="L252">        List&lt;Fatura&gt; faturas = this.getFaturas();</span>
+
+<span class="nc bnc" id="L254" title="All 2 branches missed.">        for (Fatura fatura : faturas) {</span>
+<span class="nc bnc" id="L255" title="All 8 branches missed.">            if ((fatura.getTipo() == Tipo.VENDA) &amp;&amp; ((fatura.getDataFinalizacao().isEqual(date1) == true) || (fatura.getDataFinalizacao().isBefore(date2) == true) &amp;&amp; (fatura.getDataFinalizacao().isAfter(date1) == true))) {</span>
+<span class="nc" id="L256">                valor += fatura.getCusto();</span>
+            }
+<span class="nc" id="L258">        }</span>
+
+<span class="nc" id="L260">        return valor;</span>
+    }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

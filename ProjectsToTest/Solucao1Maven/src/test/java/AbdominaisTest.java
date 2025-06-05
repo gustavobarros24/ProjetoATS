@@ -1,12 +1,16 @@
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 import org.example.Abdominais;
 import org.example.Atividade;
 import org.example.Utilizador;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
-
-import java.time.*;
 
 public class AbdominaisTest {
 
@@ -39,7 +43,7 @@ public class AbdominaisTest {
 
             @Override
             public int getFreqCardiaca() {
-                return 70;
+                return 100;
             }
 
             @Override

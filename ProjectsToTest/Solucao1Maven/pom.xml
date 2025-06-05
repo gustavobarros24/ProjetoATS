@@ -14,7 +14,7 @@
     </properties>
 
     <dependencies>
-        <!-- Dependência JUnit -->
+        <!-- JUnit 4 -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -33,7 +33,7 @@
 
     <build>
         <plugins>
-            <!-- Plugin do EvoSuite -->
+            <!-- EvoSuite plugin -->
             <plugin>
                 <groupId>org.evosuite.plugins</groupId>
                 <artifactId>evosuite-maven-plugin</artifactId>
@@ -46,6 +46,49 @@
                     <execution>
                         <goals>
                             <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- PIT Maven plugin versão 1.16.2 -->
+            <plugin>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-maven</artifactId>
+                <version>1.9.11</version>
+                <configuration>
+                    <!-- Ajuste seu pacote principal aqui -->
+                    <targetClasses>
+                        <param>org.example.*</param>
+                    </targetClasses>
+                    <targetTests>
+                        <param>org.example.*Test</param>
+                        <param>org.example.*ESTest</param>
+                        <param>*Test</param>
+                    </targetTests>
+                </configuration>
+            </plugin>
+
+            <!-- JaCoCo Maven Plugin -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.13</version>
+                <executions>
+                    <!-- Ativa o agente antes dos testes -->
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+
+                    <!-- Gera o relatório após os testes -->
+                    <execution>
+                        <id>report</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report</goal>
                         </goals>
                     </execution>
                 </executions>

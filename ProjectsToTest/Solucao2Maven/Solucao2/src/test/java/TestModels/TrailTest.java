@@ -2,12 +2,14 @@ package TestModels;
 
 import MakeItFit.activities.implementation.Trail;
 import MakeItFit.utils.MakeItFitDate;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+//import org.junit.Before;
+//import org.junit.Test;
 import java.util.UUID;
-import static org.junit.Assert.*;
+//import static org.junit.Assert.*;
 
-
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class TrailTest {
@@ -16,7 +18,7 @@ public class TrailTest {
     private UUID userCode;
     private MakeItFitDate date;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         userCode = UUID.randomUUID();
         date = MakeItFitDate.of(2024, 6, 1);

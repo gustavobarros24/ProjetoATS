@@ -2,13 +2,15 @@ package TestModels;
 
 import MakeItFit.activities.implementation.Running;
 import MakeItFit.utils.MakeItFitDate;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+//import org.junit.Before;
+//import org.junit.Test;
 import java.util.UUID;
-import static org.junit.Assert.*;
+//import static org.junit.Assert.*;
 
 
-
+import static org.junit.jupiter.api.Assertions.*;
 
 public class RunningTest {
 
@@ -17,7 +19,7 @@ public class RunningTest {
     private UUID userCode;
     private MakeItFitDate date;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         userCode = UUID.randomUUID();
         date = MakeItFitDate.of(2024, 6, 1);

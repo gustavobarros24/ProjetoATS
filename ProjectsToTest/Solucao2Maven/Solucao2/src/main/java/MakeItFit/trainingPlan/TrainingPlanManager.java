@@ -87,35 +87,76 @@ public class TrainingPlanManager implements Serializable {
             }
 
             switch (activityType) {
-                case "PushUp" -> {
-                    int expectedDuration = random.nextInt(10, 40);
-                    int repetitions = random.nextInt(5, 20);
-                    int series = random.nextInt(1, 5);
-                    activity = new PushUp(trainingPlan.getUserCode(), currentDate, expectedDuration, "PushUp created automatically", activityType, repetitions, series);
+                case "PushUp": {
+                    int expectedDuration = random.nextInt(40 - 10) + 10;   // 10..39
+                    int repetitions = random.nextInt(20 - 5) + 5;          // 5..19
+                    int series = random.nextInt(5 - 1) + 1;                 // 1..4
+                    activity = new PushUp(
+                            trainingPlan.getUserCode(),
+                            currentDate,
+                            expectedDuration,
+                            "PushUp created automatically",
+                            activityType,
+                            repetitions,
+                            series
+                    );
+                    break;
                 }
-                case "Running" -> {
-                    int expectedDuration = random.nextInt(10, 40);
-                    double distance = random.nextInt(500, 5000);
-                    double speed = random.nextInt(5, 20);
-                    activity = new Running(trainingPlan.getUserCode(), currentDate, expectedDuration, "Running created automatically", activityType, distance, speed);
+                case "Running": {
+                    int expectedDuration = random.nextInt(40 - 10) + 10;   // 10..39
+                    double distance = random.nextInt(5000 - 500) + 500;     // 500..4999
+                    double speed = random.nextInt(20 - 5) + 5;              // 5..19
+                    activity = new Running(
+                            trainingPlan.getUserCode(),
+                            currentDate,
+                            expectedDuration,
+                            "Running created automatically",
+                            activityType,
+                            distance,
+                            speed
+                    );
+                    break;
                 }
-                case "Trail" -> {
-                    int expectedDuration = random.nextInt(10, 40);
-                    int distance = random.nextInt(500, 5000);
-                    int elevationGain = random.nextInt(0, 800);
-                    int elevationLoss = random.nextInt(0, 800);
-                    int trailType = random.nextInt(1, 3);
-                    activity = new Trail(trainingPlan.getUserCode(), currentDate, expectedDuration, "Trail created automatically", activityType, distance, elevationGain, elevationLoss, trailType);
+                case "Trail": {
+                    int expectedDuration = random.nextInt(40 - 10) + 10;   // 10..39
+                    int distance = random.nextInt(5000 - 500) + 500;        // 500..4999
+                    int elevationGain = random.nextInt(800 - 0) + 0;        // 0..799
+                    int elevationLoss = random.nextInt(800 - 0) + 0;        // 0..799
+                    int trailType = random.nextInt(3 - 1) + 1;               // 1..2
+                    activity = new Trail(
+                            trainingPlan.getUserCode(),
+                            currentDate,
+                            expectedDuration,
+                            "Trail created automatically",
+                            activityType,
+                            distance,
+                            elevationGain,
+                            elevationLoss,
+                            trailType
+                    );
+                    break;
                 }
-                case "WeightSquat" -> {
-                    int expectedDuration = random.nextInt(10, 40);
-                    int repetitions = random.nextInt(5, 20);
-                    int series = random.nextInt(1, 5);
-                    double weight = random.nextInt(5, 80);
-                    activity = new WeightSquat(trainingPlan.getUserCode(), currentDate, expectedDuration, "WeightSquat created automatically", activityType, repetitions, series, weight);
+                case "WeightSquat": {
+                    int expectedDuration = random.nextInt(40 - 10) + 10;   // 10..39
+                    int repetitions = random.nextInt(20 - 5) + 5;          // 5..19
+                    int series = random.nextInt(5 - 1) + 1;                 // 1..4
+                    double weight = random.nextInt(80 - 5) + 5;             // 5..79
+                    activity = new WeightSquat(
+                            trainingPlan.getUserCode(),
+                            currentDate,
+                            expectedDuration,
+                            "WeightSquat created automatically",
+                            activityType,
+                            repetitions,
+                            series,
+                            weight
+                    );
+                    break;
                 }
-                default -> throw new IllegalArgumentException("Invalid type.");
+                default:
+                    throw new IllegalArgumentException("Invalid type.");
             }
+
 
             if (!hardActivities && activity instanceof HardInterface) {
                 continue;
@@ -129,7 +170,7 @@ public class TrainingPlanManager implements Serializable {
 
             if (activitiesAddedToday < maxActivitiesPerDay && daysWithActivitiesThisWeek < weeklyRecurrence) {
                 differentActivityTypes.add(activityType);
-                trainingPlan.addActivity(random.nextInt(1, 4), activity);
+                trainingPlan.addActivity(random.nextInt(4-1)+1, activity);
                 totalCaloricWaste += activity.caloricWaste(index);
                 activitiesAddedToday++;
                 addedActivity = true;

@@ -44,13 +44,18 @@ public class MostDoneActivity implements Serializable {
             }
         }
         int maxIndex = max(count);
-        return switch (maxIndex) {
-            case 0 -> "DistanceWithAltimetry";
-            case 1 -> "Distance";
-            case 2 -> "Repetitions";
-            case 3 -> "RepetitionsWithWeights";
-            default -> "No activities";
-        };
+        switch (maxIndex) {
+            case 0:
+                return "DistanceWithAltimetry";
+            case 1:
+                return "Distance";
+            case 2:
+                return "Repetitions";
+            case 3:
+                return "RepetitionsWithWeights";
+            default:
+                return "No activities";
+        }
 
     }
 

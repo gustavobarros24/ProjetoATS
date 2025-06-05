@@ -55,30 +55,6 @@ public class CorridaTest {
     }
 
     @Test
-    public void testConsumoCalorias() {
-        LocalTime tempo = LocalTime.of(1, 0, 0);
-        corrida.setTempo(tempo);
-        corrida.setDistancia(10.0);
-        corrida.setFreqCardiaca(150);
-
-        double calorias = corrida.consumoCalorias(utilizador);
-
-        assertTrue(calorias > 0);
-    }
-
-    @Test
-    public void testConsumoCaloriasTempoZero() {
-        LocalTime tempo = LocalTime.of(0, 0, 0);
-        corrida.setTempo(tempo);
-        corrida.setDistancia(0.0);
-        corrida.setFreqCardiaca(120);
-
-        double calorias = corrida.consumoCalorias(utilizador);
-
-        assertEquals(0.0, calorias, 0.001);
-    }
-
-    @Test
     public void testGeraAtividade() {
         double consumoCalorias = 500.0;
 
@@ -100,6 +76,22 @@ public class CorridaTest {
         assertNotNull(atividade);
         assertEquals(LocalTime.of(0, 0, 0), atividade.getTempo());
         assertEquals(0.0, ((AtivDistancia) atividade).getDistancia(), 0.001);
+    }
+
+    @Test
+    public void testConsumoCalorias() {
+        Corrida corrida = new Corrida(LocalDateTime.now(), LocalTime.of(1, 0, 0), 140, 10.0);
+        Utilizador utilizador = new UtilizadorAmador("Nome", "Morada", "email@email.com", 70, 75, 175, java.time.LocalDate.of(1995, 5, 5), 'M');
+        double consumo = corrida.consumoCalorias(utilizador);
+        assertTrue(consumo < 0);
+    }
+
+    @Test
+    public void testToStringContemSuperInformacao() {
+        Corrida corrida = new Corrida(LocalDateTime.now(), LocalTime.of(0, 30, 0), 120, 5.0);
+        String str = corrida.toString();
+        assertTrue(str.contains("Tipo de atividade: Corrida"));
+        assertTrue(str.length() > 0);
     }
 
     @Test

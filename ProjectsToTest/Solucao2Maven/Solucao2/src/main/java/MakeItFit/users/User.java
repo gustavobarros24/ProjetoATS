@@ -373,21 +373,19 @@ public abstract class User implements UserInterface, Serializable, Comparable<Us
     @Override
     public String toString() {
         return String.format(
-                """
-                                == (User details) ==
-                                Code: %s
-                                Name: %s
-                                Age: %d
-                                Gender: %s
-                                Weight: %.2f kg
-                                Height: %d cm
-                                Bpm: %d
-                                Level: %s
-                                Address: %s
-                                Phone: %s
-                                Email: %s
-                                Activities: %s
-                        """,
+                "                                == (User details) ==%n" +
+                        "                                Code: %s%n" +
+                        "                                Name: %s%n" +
+                        "                                Age: %d%n" +
+                        "                                Gender: %s%n" +
+                        "                                Weight: %.2f kg%n" +
+                        "                                Height: %d cm%n" +
+                        "                                Bpm: %d%n" +
+                        "                                Level: %s%n" +
+                        "                                Address: %s%n" +
+                        "                                Phone: %s%n" +
+                        "                                Email: %s%n" +
+                        "                                Activities: %s%n",
                 this.code,
                 this.name,
                 this.age,
@@ -401,6 +399,7 @@ public abstract class User implements UserInterface, Serializable, Comparable<Us
                 this.email,
                 this.activities
         );
+
     }
 
     /**
