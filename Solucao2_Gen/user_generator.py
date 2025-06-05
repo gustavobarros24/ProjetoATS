@@ -37,7 +37,7 @@ address_strategy = st.text(
 email_strategy       = st.emails().map(lambda x: f'\"{x}\"')
 age_strategy         = st.integers(min_value=0, max_value=120)
 gender_strategy      = st.sampled_from(["Gender.Male","Gender.Female","Gender.Other"])
-weight_strategy      = st.floats(min_value=1.0, max_value=300.0, allow_nan=False).map(lambda x: f"{x}f")
+weight_strategy      = st.floats(min_value=1.0, max_value=300.0).map(lambda x: f"{x}f")
 height_strategy      = st.integers(min_value=30, max_value=250)
 bpm_strategy         = st.integers(min_value=30, max_value=220)
 level_strategy       = st.integers(min_value=0, max_value=100)
