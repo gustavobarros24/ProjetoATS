@@ -40,3 +40,15 @@ Projeto no âmbito da UC Análise e Testes de Software
 ### Relatório
 
 - [x] Relatório
+
+## Instruções
+
+Usar o terminal e executar os seguintes comandos:
+
+- Usar "mvn clean test" para correr os testes em cada projeto.
+
+- Usar "mvn org.pitest:pitest-maven:mutationCoverage" para gerar os relatórios PIT.
+
+- Usar "mvn clean verify" para gerar os relatórios JaCoCo.
+
+- Consultar tudo na pasta target.
